@@ -1,12 +1,15 @@
 # InfoCage
 
-Continuous governance for security in dynamic systems.
+Continuous Active Governance Engine (CAGE) is a real-time governance framework
+designed to operate at threat speed and align security, risk, and compliance
+with an organization’s mission.
 
-InfoCage is an early-stage framework exploring how security and governance must evolve from static, periodic controls into continuous, real-time governance.
+## The SPHERE Model
+Brief explanation of CIA + Authenticity + Non-Repudiation as independent dimensions.
 
-The project currently defines two related but distinct models:
+## Why CAGE
+Explain the speed mismatch problem and why periodic governance fails.
 
-- **Sphere** – an evolution beyond the CIA triad, extending security into dynamic, multi-dimensional interaction.
-- **CAGE (Continuous Active Governance Engine)** – a governance framework designed to operate continuously across organizational, technical, and risk layers.
-
-This repository currently focuses on conceptual definition and structure. No implementation is provided at this stage.
+## Status
+This repository currently defines the framework and conceptual models.
+Implementation and reference architectures will follow.
