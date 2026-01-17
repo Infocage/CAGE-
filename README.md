@@ -10,4 +10,3 @@ The project currently defines two related but distinct models:
 - **CAGE (Continuous Active Governance Engine)** – a governance framework designed to operate continuously across organizational, technical, and risk layers.
 
 This repository currently focuses on conceptual definition and structure. No implementation is provided at this stage.
-
