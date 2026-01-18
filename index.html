@@ -1,0 +1,457 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>CAGE Framework - Continuous Active Governance Engine</title>\
+    <style>\
+        * \{\
+            margin: 0;\
+            padding: 0;\
+            box-sizing: border-box;\
+        \}\
+        \
+        body \{\
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\
+            background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #3b0764 100%);\
+            color: white;\
+        \}\
+        \
+        .hero \{\
+            text-align: center;\
+            padding: 80px 20px 60px;\
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);\
+        \}\
+        \
+        .hero h1 \{\
+            font-size: 5em;\
+            margin-bottom: 20px;\
+            letter-spacing: 12px;\
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.8);\
+        \}\
+        \
+        .hero .subtitle \{\
+            font-size: 1.8em;\
+            margin-bottom: 15px;\
+            color: rgba(255,255,255,0.9);\
+        \}\
+        \
+        .hero .tagline \{\
+            font-size: 1.2em;\
+            color: rgba(255,255,255,0.7);\
+            max-width: 900px;\
+            margin: 20px auto 0;\
+            line-height: 1.6;\
+        \}\
+        \
+        .container \{\
+            max-width: 1400px;\
+            margin: 0 auto;\
+            padding: 60px 20px;\
+        \}\
+        \
+        .section \{\
+            margin-bottom: 80px;\
+        \}\
+        \
+        .section-title \{\
+            font-size: 2.5em;\
+            margin-bottom: 40px;\
+            text-align: center;\
+            color: #00ff41;\
+        \}\
+        \
+        .problem-solution \{\
+            display: grid;\
+            grid-template-columns: 1fr 1fr;\
+            gap: 40px;\
+            margin-bottom: 60px;\
+        \}\
+        \
+        .box \{\
+            background: rgba(255,255,255,0.05);\
+            border-radius: 20px;\
+            padding: 40px;\
+            backdrop-filter: blur(10px);\
+            border: 2px solid;\
+        \}\
+        \
+        .problem-box \{\
+            border-color: rgba(239, 68, 68, 0.5);\
+        \}\
+        \
+        .solution-box \{\
+            border-color: rgba(0, 255, 65, 0.5);\
+        \}\
+        \
+        .box h3 \{\
+            font-size: 2em;\
+            margin-bottom: 20px;\
+        \}\
+        \
+        .box ul \{\
+            list-style: none;\
+            font-size: 1.1em;\
+            line-height: 1.8;\
+        \}\
+        \
+        .box ul li \{\
+            margin-bottom: 15px;\
+            padding-left: 30px;\
+            position: relative;\
+        \}\
+        \
+        .box ul li:before \{\
+            content: "\uc0\u8594 ";\
+            position: absolute;\
+            left: 0;\
+            font-weight: bold;\
+        \}\
+        \
+        .speed-mismatch \{\
+            background: rgba(239, 68, 68, 0.1);\
+            border: 2px solid rgba(239, 68, 68, 0.5);\
+            border-radius: 20px;\
+            padding: 40px;\
+            margin-bottom: 60px;\
+            text-align: center;\
+        \}\
+        \
+        .speed-mismatch h3 \{\
+            font-size: 2.5em;\
+            margin-bottom: 20px;\
+            color: #ef4444;\
+        \}\
+        \
+        .speed-comparison \{\
+            display: grid;\
+            grid-template-columns: 1fr 1fr;\
+            gap: 30px;\
+            margin-top: 30px;\
+        \}\
+        \
+        .speed-item \{\
+            padding: 30px;\
+            border-radius: 15px;\
+        \}\
+        \
+        .human-speed \{\
+            background: rgba(59, 130, 246, 0.2);\
+            border: 2px solid rgba(59, 130, 246, 0.5);\
+        \}\
+        \
+        .threat-speed \{\
+            background: rgba(239, 68, 68, 0.2);\
+            border: 2px solid rgba(239, 68, 68, 0.5);\
+        \}\
+        \
+        .speed-number \{\
+            font-size: 3em;\
+            font-weight: bold;\
+            margin-bottom: 10px;\
+        \}\
+        \
+        .cards \{\
+            display: grid;\
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));\
+            gap: 30px;\
+        \}\
+        \
+        .card \{\
+            background: rgba(255,255,255,0.05);\
+            border-radius: 20px;\
+            padding: 35px;\
+            text-align: center;\
+            backdrop-filter: blur(10px);\
+            border: 1px solid rgba(255,255,255,0.1);\
+            transition: all 0.3s ease;\
+        \}\
+        \
+        .card:hover \{\
+            transform: translateY(-10px);\
+            background: rgba(255,255,255,0.1);\
+            border-color: rgba(102, 126, 234, 0.5);\
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);\
+        \}\
+        \
+        .card-icon \{\
+            font-size: 3.5em;\
+            margin-bottom: 20px;\
+        \}\
+        \
+        .card h3 \{\
+            font-size: 1.8em;\
+            margin-bottom: 15px;\
+        \}\
+        \
+        .card p \{\
+            font-size: 1em;\
+            color: rgba(255,255,255,0.8);\
+            line-height: 1.6;\
+            margin-bottom: 25px;\
+        \}\
+        \
+        .card a \{\
+            display: inline-block;\
+            padding: 12px 35px;\
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\
+            color: white;\
+            text-decoration: none;\
+            border-radius: 50px;\
+            font-weight: bold;\
+            transition: all 0.3s ease;\
+        \}\
+        \
+        .card a:hover \{\
+            transform: scale(1.05);\
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);\
+        \}\
+        \
+        .regulations \{\
+            background: rgba(255,255,255,0.05);\
+            border-radius: 20px;\
+            padding: 40px;\
+            margin-bottom: 60px;\
+        \}\
+        \
+        .regulations h3 \{\
+            font-size: 2em;\
+            margin-bottom: 25px;\
+            text-align: center;\
+            color: #00ff41;\
+        \}\
+        \
+        .reg-grid \{\
+            display: grid;\
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\
+            gap: 20px;\
+        \}\
+        \
+        .reg-item \{\
+            background: rgba(102, 126, 234, 0.2);\
+            padding: 25px;\
+            border-radius: 15px;\
+            border: 1px solid rgba(102, 126, 234, 0.3);\
+        \}\
+        \
+        .reg-item h4 \{\
+            font-size: 1.4em;\
+            margin-bottom: 10px;\
+            color: #667eea;\
+        \}\
+        \
+        .cage-process \{\
+            background: rgba(0, 255, 65, 0.05);\
+            border: 2px solid rgba(0, 255, 65, 0.3);\
+            border-radius: 20px;\
+            padding: 40px;\
+            margin-bottom: 60px;\
+        \}\
+        \
+        .cage-process h3 \{\
+            font-size: 2em;\
+            margin-bottom: 30px;\
+            text-align: center;\
+            color: #00ff41;\
+        \}\
+        \
+        .process-steps \{\
+            display: grid;\
+            grid-template-columns: repeat(3, 1fr);\
+            gap: 20px;\
+        \}\
+        \
+        .process-step \{\
+            background: rgba(102, 126, 234, 0.2);\
+            padding: 30px;\
+            border-radius: 15px;\
+            text-align: center;\
+        \}\
+        \
+        .process-number \{\
+            font-size: 3em;\
+            font-weight: bold;\
+            margin-bottom: 10px;\
+            color: #00ff41;\
+        \}\
+        \
+        .process-title \{\
+            font-size: 1.5em;\
+            font-weight: bold;\
+            margin-bottom: 10px;\
+        \}\
+        \
+        @media (max-width: 968px) \{\
+            .hero h1 \{\
+                font-size: 3em;\
+                letter-spacing: 6px;\
+            \}\
+            \
+            .problem-solution,\
+            .speed-comparison,\
+            .process-steps \{\
+                grid-template-columns: 1fr;\
+            \}\
+        \}\
+        \
+        .footer \{\
+            text-align: center;\
+            padding: 40px 20px;\
+            background: rgba(0,0,0,0.3);\
+            color: rgba(255,255,255,0.5);\
+        \}\
+    </style>\
+</head>\
+<body>\
+    <div class="hero">\
+        <h1>C.A.G.E.</h1>\
+        <div class="subtitle">Continuous Active Governance Engine</div>\
+        <div class="tagline">\
+            Automated security governance that operates at threat speed - moving beyond the CIA Triad \
+            to address modern challenges like AI data poisoning, supply chain attacks, and regulatory compliance gaps\
+        </div>\
+    </div>\
+    \
+    <div class="container">\
+        <!-- Problem & Solution -->\
+        <div class="section">\
+            <div class="problem-solution">\
+                <div class="box problem-box">\
+                    <h3 style="color: #ef4444;">\uc0\u10060  The Problem</h3>\
+                    <ul>\
+                        <li>CIA Triad hides Authenticity & Non-Repudiation under Integrity</li>\
+                        <li>Quarterly audits vs continuous AI-powered threats</li>\
+                        <li>90-day governance cycles leave organizations blind</li>\
+                        <li>Traditional models can't detect AI data poisoning</li>\
+                        <li>DORA, NIS2, CRA demand real-time compliance</li>\
+                        <li>Manual processes can't keep pace with threat evolution</li>\
+                    </ul>\
+                </div>\
+                \
+                <div class="box solution-box">\
+                    <h3 style="color: #00ff41;">\uc0\u10003  The Solution</h3>\
+                    <ul>\
+                        <li>SPHERE: 5 independent security dimensions</li>\
+                        <li>CAGE: Automated continuous governance</li>\
+                        <li>Real-time monitoring & drift detection</li>\
+                        <li>Automated intervention & remediation</li>\
+                        <li>Instant compliance verification</li>\
+                        <li>Audit trail generation at threat speed</li>\
+                    </ul>\
+                </div>\
+            </div>\
+        </div>\
+        \
+        <!-- Speed Mismatch -->\
+        <div class="section">\
+            <div class="speed-mismatch">\
+                <h3>\uc0\u9888  The Unmanaged Risk: Speed Mismatch</h3>\
+                <p style="font-size: 1.2em; margin-bottom: 30px;">\
+                    The critical gap between human governance cycles and AI-driven threat speed creates massive exposure\
+                </p>\
+                <div class="speed-comparison">\
+                    <div class="speed-item human-speed">\
+                        <div class="speed-number">~90 Days</div>\
+                        <h4 style="font-size: 1.5em; margin-bottom: 15px;">Human Governance</h4>\
+                        <p>Quarterly audits, periodic reviews, manual compliance checks</p>\
+                    </div>\
+                    <div class="speed-item threat-speed">\
+                        <div class="speed-number" style="color: #ef4444;">24/7</div>\
+                        <h4 style="font-size: 1.5em; margin-bottom: 15px;">AI Threat Speed</h4>\
+                        <p>Continuous attacks, OSINT aggregation, automated exploitation</p>\
+                    </div>\
+                </div>\
+            </div>\
+        </div>\
+        \
+        <!-- CAGE Process -->\
+        <div class="section">\
+            <div class="cage-process">\
+                <h3>The CAGE Process: Identify \uc0\u8594  Intervene \u8594  Correct</h3>\
+                <div class="process-steps">\
+                    <div class="process-step">\
+                        <div class="process-number">1</div>\
+                        <div class="process-title">Identify</div>\
+                        <p>Automatically detect policy non-compliance across all SPHERE dimensions in real-time</p>\
+                    </div>\
+                    <div class="process-step">\
+                        <div class="process-number">2</div>\
+                        <div class="process-title">Intervene</div>\
+                        <p>Trigger automated remediation workflows without human delay</p>\
+                    </div>\
+                    <div class="process-step">\
+                        <div class="process-number">3</div>\
+                        <div class="process-title">Correct</div>\
+                        <p>Restore security status with automatic audit trail generation</p>\
+                    </div>\
+                </div>\
+            </div>\
+        </div>\
+        \
+        <!-- Regulatory Mandates -->\
+        <div class="section">\
+            <div class="regulations">\
+                <h3>Regulatory Compliance Mandates</h3>\
+                <div class="reg-grid">\
+                    <div class="reg-item">\
+                        <h4>EU CRA</h4>\
+                        <p>Security across product lifecycle - continuous conformity required</p>\
+                    </div>\
+                    <div class="reg-item">\
+                        <h4>DORA / NIS2</h4>\
+                        <p>Real-time incident reporting and auditable continuous accountability</p>\
+                    </div>\
+                    <div class="reg-item">\
+                        <h4>KRITIS</h4>\
+                        <p>Critical infrastructure protection with continuous monitoring</p>\
+                    </div>\
+                    <div class="reg-item">\
+                        <h4>US CMMC</h4>\
+                        <p>Continuous auditable compliance for defense contractors</p>\
+                    </div>\
+                </div>\
+            </div>\
+        </div>\
+        \
+        <!-- Interactive Visualizations -->\
+        <div class="section">\
+            <h2 class="section-title">Interactive Visualizations</h2>\
+            <div class="cards">\
+                <div class="card">\
+                    <div class="card-icon">\uc0\u55357 \u56634 </div>\
+                    <h3>CIA vs SPHERE</h3>\
+                    <p>Compare the traditional 2D CIA Triad to the dynamic 3D SPHERE security model</p>\
+                    <a href="cia-comparison.html">View Comparison</a>\
+                </div>\
+                \
+                <div class="card">\
+                    <div class="card-icon">\uc0\u55356 \u57104 </div>\
+                    <h3>SPHERE Model</h3>\
+                    <p>Interactive 3D visualization of five independent security dimensions</p>\
+                    <a href="sphere.html">Explore SPHERE</a>\
+                </div>\
+                \
+                <div class="card">\
+                    <div class="card-icon">\uc0\u9881 \u65039 </div>\
+                    <h3>CAGE Engine</h3>\
+                    <p>See the automated governance engine in action</p>\
+                    <a href="cage-engine.html">See CAGE</a>\
+                </div>\
+            </div>\
+        </div>\
+    </div>\
+    \
+    <div class="footer">\
+        <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>CAGE Framework \'a9 2025 | Shamus Coghlan, CISSP</strong></p>\
+        <p>Presented at OWASP Winter Event Berlin - December 2025</p>\
+        <p style="margin-top: 15px;">Berlin, Germany | shamuscoghlan@gmail.com</p>\
+    </div>\
+</body>\
+</html>}
