@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAGE Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            letter-spacing: 8px;
+        }
+        
+        .header .acronym {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        #canvas-container {
+            width: 100%;
+            height: 600px;
+            background: radial-gradient(circle, #1a1a2e 0%, #0a0a0a 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            margin-bottom: 40px;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .steps {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .steps h2 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .step-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .step-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .step-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .step-desc {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>C.A.G.E.</h1>
+            <div class="acronym">Continuous Active Governance Engine</div>
+        </div>
+        
+        <div id="canvas-container">
+            <canvas id="cageCanvas"></canvas>
+        </div>
+        
+        <div class="steps">
+            <h2>The CAGE Process</h2>
+            <div class="step-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Identify</div>
+                    <div class="step-desc">Automatically detect policy non-compliance in real-time</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Intervene</div>
+                    <div class="step-desc">Trigger automated remediation workflows</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Correct</div>
+                    <div class="step-desc">Restore security status with audit trails</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const canvas = document.getElementById('cageCanvas');
+        
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 7;
+        
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        
+        // Shield shape
+        const shieldShape = new THREE.Shape();
+        shieldShape.moveTo(0, 2.5);
+        shieldShape.lineTo(-2, 1.8);
+        shieldShape.lineTo(-2, -0.8);
+        shieldShape.quadraticCurveTo(-2, -2.5, 0, -3.2);
+        shieldShape.quadraticCurveTo(2, -2.5, 2, -0.8);
+        shieldShape.lineTo(2, 1.8);
+        shieldShape.lineTo(0, 2.5);
+        
+        const extrudeSettings = { depth: 0.8, bevelEnabled: false };
+        const shieldGeometry = new THREE.ExtrudeGeometry(shieldShape, extrudeSettings);
+        
+        // Wireframe shield
+        const shieldEdges = new THREE.EdgesGeometry(shieldGeometry);
+        const shieldWireframe = new THREE.LineSegments(
+            shieldEdges,
+            new THREE.LineBasicMaterial({ color: 0x667eea, transparent: true, opacity: 0.4 })
+        );
+        shieldWireframe.position.z = -0.4;
+        scene.add(shieldWireframe);
+        
+        // Solid shield faces
+        const shieldMaterial = new THREE.MeshPhongMaterial({ 
+            color: 0x667eea,
+            transparent: true,
+            opacity: 0.15,
+            side: THREE.DoubleSide
+        });
+        const shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+        shield.position.z = -0.4;
+        scene.add(shield);
+        
+        // Gear function
+        function createGear(radius, teeth, toothDepth) {
+            const shape = new THREE.Shape();
+            const angleStep = (Math.PI * 2) / teeth;
+            
+            for (let i = 0; i < teeth; i++) {
+                const angle1 = i * angleStep;
+                const angle2 = angle1 + angleStep * 0.35;
+                const angle3 = angle1 + angleStep * 0.65;
+                const angle4 = (i + 1) * angleStep;
+                
+                const innerRadius = radius;
+                const outerRadius = radius + toothDepth;
+                
+                if (i === 0) {
+                    shape.moveTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
+                } else {
+                    shape.lineTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
+                }
+                shape.lineTo(Math.cos(angle2) * outerRadius, Math.sin(angle2) * outerRadius);
+                shape.lineTo(Math.cos(angle3) * outerRadius, Math.sin(angle3) * outerRadius);
+                shape.lineTo(Math.cos(angle4) * innerRadius, Math.sin(angle4) * innerRadius);
+            }
+            shape.closePath();
+            
+            const holePath = new THREE.Path();
+            holePath.absarc(0, 0, radius * 0.3, 0, Math.PI * 2, false);
+            shape.holes.push(holePath);
+            
+            return shape;
+        }
+        
+        // Three gears with magenta/pink security colors
+        const gearConfigs = [
+            { x: 0, y: 0.5, radius: 0.55, teeth: 10, color: 0xec4899, speed: 0.02 },     // Pink/magenta
+            { x: -0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xf472b6, speed: -0.022 }, // Lighter pink
+            { x: 0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xdb2777, speed: -0.022 }  // Deeper pink
+        ];
+        
+        const gears = [];
+        
+        gearConfigs.forEach(config => {
+            const gearShape = createGear(config.radius, config.teeth, 0.1);
+            
+            const gearExtrudeSettings = {
+                depth: 0.2,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.03,
+                bevelSegments: 2
+            };
+            
+            const gearGeometry = new THREE.ExtrudeGeometry(gearShape, gearExtrudeSettings);
+            const gearMaterial = new THREE.MeshPhongMaterial({ 
+                color: config.color,
+                emissive: config.color,
+                emissiveIntensity: 0.4,
+                shininess: 80
+            });
+            const gear = new THREE.Mesh(gearGeometry, gearMaterial);
+            
+            gear.position.set(config.x, config.y, 0.5);
+            scene.add(gear);
+            
+            gears.push({ mesh: gear, speed: config.speed });
+        });
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        
+        const topLight = new THREE.PointLight(0xec4899, 1.5);
+        topLight.position.set(0, 5, 5);
+        scene.add(topLight);
+        
+        const bottomLight = new THREE.PointLight(0xf472b6, 1);
+        bottomLight.position.set(0, -3, 3);
+        scene.add(bottomLight);
+        
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            gears.forEach(gear => {
+                gear.mesh.rotation.z += gear.speed;
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+    </script>
+</body>
+</html>
