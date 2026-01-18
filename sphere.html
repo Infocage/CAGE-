@@ -1,0 +1,509 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red252\green95\blue163;\red31\green31\blue36;\red255\green255\blue255;
+\red191\green133\blue85;\red252\green106\blue93;\red208\green191\blue105;\red65\green161\blue192;\red84\green130\blue255;
+\red108\green121\blue134;}
+{\*\expandedcolortbl;;\csgenericrgb\c98839\c37355\c63833;\csgenericrgb\c12054\c12284\c14131;\csgenericrgb\c100000\c100000\c100000\c85000;
+\csgenericrgb\c74902\c52157\c33333;\csgenericrgb\c98912\c41558\c36568;\csgenericrgb\c81498\c74939\c41233;\csgenericrgb\c25490\c63137\c75294;\csgenericrgb\c33019\c51127\c99859;
+\csgenericrgb\c42394\c47462\c52518;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab692
+\pard\tx692\pardeftab692\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf2 \cb3 <!DOCTYPE html>
+\f1\b0 \cf4 \
+
+\f0\b \cf2 <html 
+\f1\b0 \cf5 lang
+\f0\b \cf2 =
+\f1\b0 \cf6 "en"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+
+\f0\b \cf2 <head>
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <meta 
+\f1\b0 \cf5 charset
+\f0\b \cf2 =
+\f1\b0 \cf6 "UTF-8"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <meta 
+\f1\b0 \cf5 name
+\f0\b \cf2 =
+\f1\b0 \cf6 "viewport"
+\f0\b \cf2  
+\f1\b0 \cf5 content
+\f0\b \cf2 =
+\f1\b0 \cf6 "width=device-width, initial-scale=1.0"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <title>
+\f1\b0 \cf4 SPHERE Model
+\f0\b \cf2 </title>
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <style>
+\f1\b0 \cf4 \
+        * \{\
+            
+\f0\b \cf2 margin
+\f1\b0 \cf4 : \cf7 0\cf4 ;\
+            
+\f0\b \cf2 padding
+\f1\b0 \cf4 : \cf7 0\cf4 ;\
+            
+\f0\b \cf2 box-sizing
+\f1\b0 \cf4 : 
+\f0\b \cf2 border-box
+\f1\b0 \cf4 ;\
+        \}\
+        \
+        \cf8 body\cf4  \{\
+            
+\f0\b \cf2 font-family
+\f1\b0 \cf4 : \cf6 'Segoe UI'\cf4 , Tahoma, Geneva, Verdana, 
+\f0\b \cf2 sans-serif
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 background
+\f1\b0 \cf4 : linear-gradient(\cf7 135
+\f0\b \cf2 deg
+\f1\b0 \cf4 , \cf7 #667eea\cf4  \cf7 0%\cf4 , \cf7 #764ba2\cf4  \cf7 100%\cf4 );\
+            
+\f0\b \cf2 overflow-x
+\f1\b0 \cf4 : 
+\f0\b \cf2 hidden
+\f1\b0 \cf4 ;\
+        \}\
+        \
+        \cf8 .container\cf4  \{\
+            
+\f0\b \cf2 max-width
+\f1\b0 \cf4 : \cf7 1400
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 margin
+\f1\b0 \cf4 : \cf7 0\cf4  
+\f0\b \cf2 auto
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 padding
+\f1\b0 \cf4 : \cf7 40
+\f0\b \cf2 px
+\f1\b0 \cf4  \cf7 20
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+        \}\
+        \
+        \cf8 .header\cf4  \{\
+            
+\f0\b \cf2 text-align
+\f1\b0 \cf4 : 
+\f0\b \cf2 center
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 color
+\f1\b0 \cf4 : 
+\f0\b \cf2 white
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 margin-bottom
+\f1\b0 \cf4 : \cf7 40
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+        \}\
+        \
+        \cf8 .header\cf4  \cf8 h1\cf4  \{\
+            
+\f0\b \cf2 font-size
+\f1\b0 \cf4 : \cf7 3
+\f0\b \cf2 em
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 margin-bottom
+\f1\b0 \cf4 : \cf7 10
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 text-shadow
+\f1\b0 \cf4 : \cf7 2
+\f0\b \cf2 px
+\f1\b0 \cf4  \cf7 2
+\f0\b \cf2 px
+\f1\b0 \cf4  \cf7 4
+\f0\b \cf2 px
+\f1\b0 \cf4  
+\f0\b \cf2 rgba
+\f1\b0 \cf4 (\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0.3\cf4 );\
+        \}\
+        \
+        \cf8 #canvas-container\cf4  \{\
+            
+\f0\b \cf2 width
+\f1\b0 \cf4 : \cf7 100%\cf4 ;\
+            
+\f0\b \cf2 height
+\f1\b0 \cf4 : \cf7 600
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 background
+\f1\b0 \cf4 : radial-gradient(
+\f0\b \cf2 circle
+\f1\b0 \cf4 , \cf7 #0a0a0a\cf4  \cf7 0%\cf4 , \cf7 #1a1a2e\cf4  \cf7 100%\cf4 );\
+            
+\f0\b \cf2 border-radius
+\f1\b0 \cf4 : \cf7 15
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 overflow
+\f1\b0 \cf4 : 
+\f0\b \cf2 hidden
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 box-shadow
+\f1\b0 \cf4 : \cf7 0\cf4  \cf7 20
+\f0\b \cf2 px
+\f1\b0 \cf4  \cf7 60
+\f0\b \cf2 px
+\f1\b0 \cf4  
+\f0\b \cf2 rgba
+\f1\b0 \cf4 (\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0\cf4 ,\cf7 0.3\cf4 );\
+        \}\
+        \
+        \cf8 canvas\cf4  \{\
+            
+\f0\b \cf2 display
+\f1\b0 \cf4 : 
+\f0\b \cf2 block
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 cursor
+\f1\b0 \cf4 : grab;\
+        \}\
+        \
+        \cf8 canvas\cf4 :
+\f0\b \cf2 active
+\f1\b0 \cf4  \{\
+            
+\f0\b \cf2 cursor
+\f1\b0 \cf4 : grabbing;\
+        \}\
+        \
+        \cf8 .controls\cf4  \{\
+            
+\f0\b \cf2 text-align
+\f1\b0 \cf4 : 
+\f0\b \cf2 center
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 margin-top
+\f1\b0 \cf4 : \cf7 20
+\f0\b \cf2 px
+\f1\b0 \cf4 ;\
+            
+\f0\b \cf2 color
+\f1\b0 \cf4 : 
+\f0\b \cf2 white
+\f1\b0 \cf4 ;\
+        \}\
+    
+\f0\b \cf2 </style>
+\f1\b0 \cf4 \
+
+\f0\b \cf2 </head>
+\f1\b0 \cf4 \
+
+\f0\b \cf2 <body>
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <div 
+\f1\b0 \cf5 class
+\f0\b \cf2 =
+\f1\b0 \cf6 "container"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+        
+\f0\b \cf2 <div 
+\f1\b0 \cf5 class
+\f0\b \cf2 =
+\f1\b0 \cf6 "header"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+            
+\f0\b \cf2 <h1>
+\f1\b0 \cf4 The SPHERE Model
+\f0\b \cf2 </h1>
+\f1\b0 \cf4 \
+            
+\f0\b \cf2 <p>
+\f1\b0 \cf4 Five Rings Rotating in 3D Space
+\f0\b \cf2 </p>
+\f1\b0 \cf4 \
+        
+\f0\b \cf2 </div>
+\f1\b0 \cf4 \
+        \
+        
+\f0\b \cf2 <div 
+\f1\b0 \cf5 id
+\f0\b \cf2 =
+\f1\b0 \cf6 "canvas-container"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+            
+\f0\b \cf2 <canvas 
+\f1\b0 \cf5 id
+\f0\b \cf2 =
+\f1\b0 \cf6 "sphereCanvas"
+\f0\b \cf2 ></canvas>
+\f1\b0 \cf4 \
+        
+\f0\b \cf2 </div>
+\f1\b0 \cf4 \
+        
+\f0\b \cf2 <div 
+\f1\b0 \cf5 class
+\f0\b \cf2 =
+\f1\b0 \cf6 "controls"
+\f0\b \cf2 >
+\f1\b0 \cf4 \
+            \uc0\u55357 \u56753 \u65039  Drag to rotate view\
+        
+\f0\b \cf2 </div>
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 </div>
+\f1\b0 \cf4 \
+\
+    
+\f0\b \cf2 <script 
+\f1\b0 \cf5 src
+\f0\b \cf2 =
+\f1\b0 \cf6 "\cf9 https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\cf6 "
+\f0\b \cf2 ></script>
+\f1\b0 \cf4 \
+    
+\f0\b \cf2 <script>
+\f1\b0 \cf4 \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  container = document.getElementById(\cf6 'canvas-container'\cf4 );\
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  canvas = document.getElementById(\cf6 'sphereCanvas'\cf4 );\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  scene = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Scene();\
+        scene.background = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Color(\cf7 0x0a0a0a\cf4 );\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  camera = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.PerspectiveCamera(\cf7 45\cf4 , container.clientWidth / container.clientHeight, \cf7 0.1\cf4 , \cf7 1000\cf4 );\
+        camera.position.z = \cf7 10\cf4 ;\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  renderer = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.WebGLRenderer(\{ canvas: canvas, antialias: 
+\f0\b \cf2 true
+\f1\b0 \cf4  \});\
+        renderer.setSize(container.clientWidth, container.clientHeight);\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  orbitRadius = \cf7 3\cf4 ;\
+        \
+        \cf10 // Wireframe sphere\cf4 \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  sphereGeo = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.SphereGeometry(orbitRadius, \cf7 24\cf4 , \cf7 24\cf4 );\
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  sphereMat = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.MeshBasicMaterial(\{ color: \cf7 0x667eea\cf4 , wireframe: 
+\f0\b \cf2 true
+\f1\b0 \cf4 , transparent: 
+\f0\b \cf2 true
+\f1\b0 \cf4 , opacity: \cf7 0.15\cf4  \});\
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  sphere = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Mesh(sphereGeo, sphereMat);\
+        scene.add(sphere);\
+        \
+        \cf10 // Ring configurations\cf4 \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  configs = [\
+            \{ color: \cf7 0x3b82f6\cf4 , xRot: \cf7 0.003\cf4 , yRot: \cf7 0.004\cf4  \},      \cf10 // Blue - Confidentiality\cf4 \
+            \{ color: \cf7 0x10b981\cf4 , xRot: \cf7 -0.004\cf4 , yRot: \cf7 0.003\cf4  \},     \cf10 // Green - Integrity\cf4 \
+            \{ color: \cf7 0xf59e0b\cf4 , xRot: \cf7 0.004\cf4 , yRot: \cf7 -0.003\cf4  \},     \cf10 // Orange - Availability\cf4 \
+            \{ color: \cf7 0x8b5cf6\cf4 , xRot: \cf7 -0.003\cf4 , yRot: \cf7 -0.004\cf4  \},    \cf10 // Purple - Authenticity\cf4 \
+            \{ color: \cf7 0xef4444\cf4 , xRot: \cf7 0.003\cf4 , yRot: \cf7 0.004\cf4  \}       \cf10 // Red - Non-Repudiation\cf4 \
+        ];\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  rings = [];\
+        \
+        configs.forEach((config, i) => \{\
+            \cf10 // Create ring group\cf4 \
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ringGroup = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Group();\
+            scene.add(ringGroup);\
+            \
+            \cf10 // Ring torus\cf4 \
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ringGeo = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.TorusGeometry(orbitRadius, \cf7 0.04\cf4 , \cf7 16\cf4 , \cf7 100\cf4 );\
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ringMat = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.MeshBasicMaterial(\{ color: config.color, transparent: 
+\f0\b \cf2 true
+\f1\b0 \cf4 , opacity: \cf7 0.6\cf4  \});\
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ring = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Mesh(ringGeo, ringMat);\
+            ringGroup.add(ring);\
+            \
+            \cf10 // Ball marker on ring - SAME COLOR\cf4 \
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ballGeo = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.SphereGeometry(\cf7 0.2\cf4 , \cf7 16\cf4 , \cf7 16\cf4 );\
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ballMat = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.MeshPhongMaterial(\{ color: config.color, emissive: config.color, emissiveIntensity: \cf7 0.6\cf4  \});\
+            
+\f0\b \cf2 const
+\f1\b0 \cf4  ball = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.Mesh(ballGeo, ballMat);\
+            \
+            \cf10 // Position ball ON the ring at a fixed spot\cf4 \
+            ball.position.
+\f0\b \cf2 set
+\f1\b0 \cf4 (orbitRadius, \cf7 0\cf4 , \cf7 0\cf4 );\
+            ring.add(ball);\
+            \
+            rings.push(\{ group: ringGroup, ring: ring, xRot: config.xRot, yRot: config.yRot \});\
+        \});\
+        \
+        \cf10 // Lighting\cf4 \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  ambient = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.AmbientLight(\cf7 0xffffff\cf4 , \cf7 0.5\cf4 );\
+        scene.add(ambient);\
+        \
+        
+\f0\b \cf2 const
+\f1\b0 \cf4  light1 = 
+\f0\b \cf2 new
+\f1\b0 \cf4  THREE.PointLight(\cf7 0xffffff\cf4 , \cf7 0.8\cf4 );\
+        light1.position.
+\f0\b \cf2 set
+\f1\b0 \cf4 (\cf7 10\cf4 , \cf7 10\cf4 , \cf7 10\cf4 );\
+        scene.add(light1);\
+        \
+        \cf10 // Mouse\cf4 \
+        
+\f0\b \cf2 let
+\f1\b0 \cf4  isDragging = 
+\f0\b \cf2 false
+\f1\b0 \cf4 ;\
+        
+\f0\b \cf2 let
+\f1\b0 \cf4  prevMouse = \{ x: \cf7 0\cf4 , y: \cf7 0\cf4  \};\
+        
+\f0\b \cf2 let
+\f1\b0 \cf4  userRot = \{ x: \cf7 0\cf4 , y: \cf7 0\cf4  \};\
+        \
+        canvas.addEventListener(\cf6 'mousedown'\cf4 , (e) => \{\
+            isDragging = 
+\f0\b \cf2 true
+\f1\b0 \cf4 ;\
+            prevMouse = \{ x: e.clientX, y: e.clientY \};\
+        \});\
+        \
+        canvas.addEventListener(\cf6 'mousemove'\cf4 , (e) => \{\
+            
+\f0\b \cf2 if
+\f1\b0 \cf4  (isDragging) \{\
+                userRot.y += (e.clientX - prevMouse.x) * \cf7 0.01\cf4 ;\
+                userRot.x += (e.clientY - prevMouse.y) * \cf7 0.01\cf4 ;\
+                prevMouse = \{ x: e.clientX, y: e.clientY \};\
+            \}\
+        \});\
+        \
+        canvas.addEventListener(\cf6 'mouseup'\cf4 , () => isDragging = 
+\f0\b \cf2 false
+\f1\b0 \cf4 );\
+        \
+        \cf10 // Animate\cf4 \
+        
+\f0\b \cf2 function
+\f1\b0 \cf4  \cf8 animate\cf4 () \{\
+            requestAnimationFrame(animate);\
+            \
+            \cf10 // Each ring rotates in 3D\cf4 \
+            rings.forEach(r => \{\
+                r.group.rotation.x += r.xRot;\
+                r.group.rotation.y += r.yRot;\
+            \});\
+            \
+            scene.rotation.x = userRot.x;\
+            scene.rotation.y = userRot.y;\
+            \
+            renderer.render(scene, camera);\
+        \}\
+        \
+        animate();\
+        \
+        window.addEventListener(\cf6 'resize'\cf4 , () => \{\
+            camera.aspect = container.clientWidth / container.clientHeight;\
+            camera.updateProjectionMatrix();\
+            renderer.setSize(container.clientWidth, container.clientHeight);\
+        \});\
+    
+\f0\b \cf2 </script>
+\f1\b0 \cf4 \
+
+\f0\b \cf2 </body>
+\f1\b0 \cf4 \
+
+\f0\b \cf2 </html>
+\f1\b0 \cf4 \
+}
