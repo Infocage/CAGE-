@@ -12,116 +12,200 @@
             color: white;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         .nav { padding: 20px; }
-        .nav a { color: #00ff41; text-decoration: none; font-weight: bold; border: 1px solid #00ff41; padding: 10px 20px; border-radius: 5px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .nav a { color: #00ff41; text-decoration: none; font-weight: bold; border: 1px solid #00ff41; padding: 10px 20px; border-radius: 5px; transition: 0.3s; }
+        .nav a:hover { background: rgba(0, 255, 65, 0.1); }
         
-        /* The Visual Model Header */
-        .model-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 60px;
-            padding: 40px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 40px 60px; }
         
-        .visual-triangle {
-            width: 0; height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 100px solid #ef4444;
-            position: relative;
-        }
-        
-        .visual-sphere {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            background: repeating-linear-gradient(45deg, #00ff41, #00ff41 10px, #0a1628 10px, #0a1628 20px);
-            border: 2px solid #00ff41;
-            box-shadow: 0 0 20px #00ff41;
-        }
+        h1 { text-align: center; color: #00ff41; margin-bottom: 40px; letter-spacing: 2px; }
 
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
+        
+        @media (max-width: 968px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+
         .model-card {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px;
             border: 2px solid;
             backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
         }
+        
         .cia-card { border-color: #ef4444; }
         .sphere-card { border-color: #00ff41; }
-        
-        .dim-list { list-style: none; margin-top: 20px; }
-        .dim-list li {
-            padding: 15px;
-            margin-bottom: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
+
+        .visual-container {
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .dim-name { font-weight: bold; display: block; font-size: 1.2em; margin-bottom: 5px; }
+
+        #sphere-canvas { width: 100%; height: 100%; cursor: grab; }
+        #sphere-canvas:active { cursor: grabbing; }
+
+        .dim-list { list-style: none; flex-grow: 1; }
+        .dim-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            font-size: 0.95em;
+        }
+        
+        .dim-name { font-weight: bold; display: block; font-size: 1.1em; margin-bottom: 2px; }
         .cia-card .dim-name { color: #ef4444; }
         .sphere-card .dim-name { color: #00ff41; }
 
         .gap-visual {
             text-align: center;
-            margin: 40px 0;
-            padding: 20px;
+            margin-top: 40px;
+            padding: 30px;
             border: 2px dashed #667eea;
-            border-radius: 15px;
+            border-radius: 20px;
+            background: rgba(102, 126, 234, 0.05);
         }
+        
+        .gap-visual h3 { color: #a78bfa; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="nav"><a href="index.html">← RETURN TO DASHBOARD</a></div>
+    
     <div class="container">
-        <h1 style="text-align:center; color:#00ff41; margin-bottom:40px;">Dimensional Security Evolution</h1>
-
-        <div class="model-header">
-            <div style="text-align:center;">
-                <div class="visual-triangle"></div>
-                <p style="margin-top:10px; color:#ef4444;">2D CIA TRIAD</p>
-            </div>
-            <div style="font-size:2em;">→</div>
-            <div style="text-align:center;">
-                <div class="visual-sphere"></div>
-                <p style="margin-top:10px; color:#00ff41;">5D SPHERE</p>
-            </div>
-        </div>
+        <h1>Dimensional Security Evolution</h1>
 
         <div class="comparison-grid">
             <div class="model-card cia-card">
-                <h2>Legacy CIA</h2>
+                <h2 style="color:#ef4444; text-align:center; margin-bottom:20px;">Legacy CIA Triad (2D)</h2>
+                <div class="visual-container">
+                    <svg viewBox="0 0 600 550" style="width:100%; height:100%;">
+                        <polygon points="300,80 520,480 80,480" fill="none" stroke="#ef4444" stroke-width="4"/>
+                        <line x1="300" y1="80" x2="300" y2="320" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="300" y1="320" x2="80" y2="480" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5"/>
+                        <line x1="300" y1="320" x2="520" y2="480" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="150" y="280" text-anchor="middle" font-size="28" font-weight="bold" fill="#ef4444">Confidentiality</text>
+                        <text x="450" y="280" text-anchor="middle" font-size="28" font-weight="bold" fill="#ef4444">Integrity</text>
+                        <text x="300" y="530" text-anchor="middle" font-size="28" font-weight="bold" fill="#ef4444">Availability</text>
+                    </svg>
+                </div>
                 <ul class="dim-list">
-                    <li><span class="dim-name">Confidentiality</span> Privacy of data.</li>
+                    <li><span class="dim-name">Confidentiality</span> Privacy and access restriction.</li>
                     <li><span class="dim-name">Integrity</span> Catch-all for data accuracy.</li>
-                    <li><span class="dim-name">Availability</span> System uptime.</li>
+                    <li><span class="dim-name">Availability</span> System uptime and accessibility.</li>
                 </ul>
             </div>
+
             <div class="model-card sphere-card">
-                <h2>C.A.G.E. SPHERE</h2>
+                <h2 style="color:#00ff41; text-align:center; margin-bottom:20px;">C.A.G.E. SPHERE (3D)</h2>
+                <div class="visual-container">
+                    <canvas id="sphere-canvas"></canvas>
+                </div>
                 <ul class="dim-list">
-                    <li><span class="dim-name">Confidentiality</span> Data access control.</li>
-                    <li><span class="dim-name">Authenticity</span> Source verification.</li>
-                    <li><span class="dim-name">Non-Repudiation</span> Proof of action.</li>
-                    <li><span class="dim-name">Availability</span> Resilience.</li>
-                    <li><span class="dim-name">Integrity</span> Content assurance.</li>
+                    <li><span class="dim-name">Confidentiality</span> Granular data access control.</li>
+                    <li><span class="dim-name">Authenticity</span> Source and origin verification.</li>
+                    <li><span class="dim-name">Non-Repudiation</span> Cryptographic proof of action.</li>
+                    <li><span class="dim-name">Availability</span> System and data resilience.</li>
+                    <li><span class="dim-name">Integrity</span> Content assurance and poison detection.</li>
                 </ul>
             </div>
         </div>
 
         <div class="gap-visual">
-            <h3 style="color:#667eea;">The Integrity Gap Visualized</h3>
-            <p>Traditional Integrity overlaps with Authenticity. SPHERE decouples them to detect AI Data Poisoning.</p>
+            <h3>The Integrity Gap Visualized</h3>
+            <p>Traditional Integrity overlaps with Authenticity. The SPHERE model decouples these dimensions to detect high-speed threats like AI Data Poisoning that legacy models often miss.</p>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const canvas = document.getElementById('sphere-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.z = 10;
+        
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        
+        const orbitRadius = 3.2;
+        
+        // Wireframe background sphere
+        const sphereGeo = new THREE.SphereGeometry(orbitRadius, 24, 24);
+        const sphereMat = new THREE.MeshBasicMaterial({ color: 0x00ff41, wireframe: true, transparent: true, opacity: 0.05 });
+        scene.add(new THREE.Mesh(sphereGeo, sphereMat));
+        
+        const configs = [
+            { color: 0x3b82f6, xRot: 0.003, yRot: 0.004 },  // Confidentiality
+            { color: 0x10b981, xRot: -0.004, yRot: 0.003 }, // Integrity
+            { color: 0xf59e0b, xRot: 0.004, yRot: -0.003 }, // Availability
+            { color: 0x8b5cf6, xRot: -0.003, yRot: -0.004 },// Authenticity
+            { color: 0xef4444, xRot: 0.003, yRot: 0.004 }   // Non-Repudiation
+        ];
+        
+        const rings = [];
+        configs.forEach(config => {
+            const group = new THREE.Group();
+            const ring = new THREE.Mesh(
+                new THREE.TorusGeometry(orbitRadius, 0.04, 16, 100),
+                new THREE.MeshBasicMaterial({ color: config.color, transparent: true, opacity: 0.6 })
+            );
+            const ball = new THREE.Mesh(
+                new THREE.SphereGeometry(0.2, 16, 16),
+                new THREE.MeshPhongMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.6 })
+            );
+            ball.position.set(orbitRadius, 0, 0);
+            ring.add(ball);
+            group.add(ring);
+            scene.add(group);
+            rings.push({ group, xRot: config.xRot, yRot: config.yRot });
+        });
+        
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const light = new THREE.PointLight(0xffffff, 1);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+
+        let isDragging = false, prevMouse = { x: 0, y: 0 }, userRot = { x: 0, y: 0 };
+        canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
+        canvas.addEventListener('mousemove', e => {
+            if (isDragging) {
+                userRot.y += (e.clientX - prevMouse.x) * 0.01;
+                userRot.x += (e.clientY - prevMouse.y) * 0.01;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            }
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            rings.forEach(r => { r.group.rotation.x += r.xRot; r.group.rotation.y += r.yRot; });
+            scene.rotation.x = userRot.x;
+            scene.rotation.y = userRot.y;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
+    </script>
 </body>
 </html>
