@@ -15,7 +15,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #3b0764 100%);
             color: white;
-            line-height: 1.6;
         }
         
         .hero {
@@ -42,6 +41,7 @@
             color: rgba(255,255,255,0.7);
             max-width: 900px;
             margin: 20px auto 0;
+            line-height: 1.6;
         }
         
         .container {
@@ -106,7 +106,6 @@
             position: absolute;
             left: 0;
             font-weight: bold;
-            color: inherit;
         }
         
         .speed-mismatch {
@@ -188,6 +187,7 @@
         .card p {
             font-size: 1em;
             color: rgba(255,255,255,0.8);
+            line-height: 1.6;
             margin-bottom: 25px;
         }
         
@@ -200,6 +200,11 @@
             border-radius: 50px;
             font-weight: bold;
             transition: all 0.3s ease;
+        }
+        
+        .card a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
         }
         
         .regulations {
@@ -276,16 +281,24 @@
             margin-bottom: 10px;
         }
         
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 3em;
+                letter-spacing: 6px;
+            }
+            
+            .problem-solution,
+            .speed-comparison,
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         .footer {
             text-align: center;
             padding: 40px 20px;
             background: rgba(0,0,0,0.3);
             color: rgba(255,255,255,0.5);
-        }
-
-        @media (max-width: 968px) {
-            .hero h1 { font-size: 3em; letter-spacing: 6px; }
-            .problem-solution, .speed-comparison, .process-steps { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -300,6 +313,7 @@
     </div>
     
     <div class="container">
+        <!-- Problem & Solution -->
         <div class="section">
             <div class="problem-solution">
                 <div class="box problem-box">
@@ -328,6 +342,7 @@
             </div>
         </div>
         
+        <!-- Speed Mismatch -->
         <div class="section">
             <div class="speed-mismatch">
                 <h3>⚠ The Unmanaged Risk: Speed Mismatch</h3>
@@ -347,8 +362,20 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Visual Comparison Graph -->
+            <div style="background: rgba(10, 22, 40, 0.8); border: 2px solid rgba(239, 68, 68, 0.4); border-radius: 20px; padding: 30px; margin-top: 40px; backdrop-filter: blur(10px);">
+                <h3 style="text-align: center; color: #ef4444; font-size: 1.8em; margin-bottom: 25px;">Risk Exposure: Speed Mismatch</h3>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <canvas id="comparisonChart" style="max-height: 300px;"></canvas>
+                </div>
+                <p style="text-align: center; color: rgba(255,255,255,0.8); margin-top: 20px; font-size: 0.95em;">
+                    Organizations are blind to threats for ~89 days between governance cycles
+                </p>
+            </div>
         </div>
         
+        <!-- CAGE Process -->
         <div class="section">
             <div class="cage-process">
                 <h3>The CAGE Process: Identify → Intervene → Correct</h3>
@@ -372,6 +399,7 @@
             </div>
         </div>
         
+        <!-- Regulatory Mandates -->
         <div class="section">
             <div class="regulations">
                 <h3>Regulatory Compliance Mandates</h3>
@@ -396,6 +424,7 @@
             </div>
         </div>
         
+        <!-- Interactive Visualizations -->
         <div class="section">
             <h2 class="section-title">Interactive Visualizations</h2>
             <div class="cards">
@@ -428,5 +457,109 @@
         <p>Presented at OWASP Winter Event Berlin - December 2025</p>
         <p style="margin-top: 15px;">Berlin, Germany | shamuscoghlan@gmail.com</p>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Compliance Comparison Chart
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90'],
+                datasets: [{
+                    label: 'Human Governance Speed',
+                    data: [5, 8, 10, 12, 15, 18, 20, 22, 25, 28],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#3b82f6'
+                }, {
+                    label: 'AI/Threat Speed',
+                    data: [10, 25, 45, 70, 100, 140, 185, 240, 305, 380],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    borderWidth: 4,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointBackgroundColor: '#ef4444',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#ffffff',
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            padding: 15
+                        }
+                    },
+                    title: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Risk',
+                            color: '#ffffff',
+                            font: {
+                                size: 13,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            color: '#ffffff',
+                            font: {
+                                size: 11
+                            },
+                            callback: function(value, index) {
+                                if (value === 0) return 'Low';
+                                if (index === this.max) return 'High';
+                                return '';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days',
+                            color: '#ffffff',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            color: '#ffffff',
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
