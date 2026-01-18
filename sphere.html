@@ -14,7 +14,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            overflow-x: hidden;
+            min-height: 100vh;
         }
         
         .container {
@@ -26,13 +26,40 @@
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
         
         .header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
+            font-size: 3.5em;
+            margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .intro {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .intro h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #00ff41;
+        }
+        
+        .intro p {
+            font-size: 1.1em;
+            line-height: 1.8;
         }
         
         #canvas-container {
@@ -42,6 +69,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
         }
         
         canvas {
@@ -55,22 +83,35 @@
         
         .controls {
             text-align: center;
-            margin-top: 20px;
+            margin-bottom: 40px;
             color: white;
+            font-size: 1.1em;
         }
         
         .dimension-list {
-            margin-top: 40px;
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+        }
+        
+        .dimension-list h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #1a1a2e;
         }
         
         .dimension-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            transition: transform 0.2s;
+        }
+        
+        .dimension-item:hover {
+            transform: translateX(10px);
         }
         
         .dim-confidentiality { background: #3b82f6; color: white; }
@@ -81,8 +122,65 @@
         
         .dimension-name {
             font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 5px;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        
+        .dimension-desc {
+            font-size: 1em;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+        
+        .elevated-badge {
+            display: inline-block;
+            background: #fbbf24;
+            color: #78350f;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.6em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .advantages {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .advantages h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #00ff41;
+        }
+        
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .advantage-item {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .advantage-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #00ff41;
+        }
+        
+        .advantage-item p {
+            line-height: 1.6;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -90,32 +188,107 @@
     <div class="container">
         <div class="header">
             <h1>The SPHERE Model</h1>
-            <p>Five Independent Dimensions in Continuous 3D Rotation</p>
+            <div class="subtitle">Five Independent Security Dimensions in Dynamic 3D Space</div>
+        </div>
+        
+        <div class="intro">
+            <h2>Beyond the CIA Triad</h2>
+            <p>
+                The SPHERE model revolutionizes security by moving from a flat 2D triangle to a dynamic 3D framework. 
+                Unlike the CIA Triad which hides Authenticity and Non-Repudiation under Integrity, SPHERE elevates 
+                these critical dimensions to first-class status. Each dimension operates independently while revealing 
+                complex risk propagation patterns invisible to traditional models.
+            </p>
         </div>
         
         <div id="canvas-container">
             <canvas id="sphereCanvas"></canvas>
         </div>
         <div class="controls">
-            🖱️ Click and drag to rotate view • Rings pass through each other as they rotate
+            🖱️ Click and drag to rotate • Watch how rings pass through each other revealing risk interactions
         </div>
         
         <div class="dimension-list">
-            <h2 style="text-align: center; margin-bottom: 20px;">SPHERE Dimensions</h2>
+            <h2>The Five SPHERE Dimensions</h2>
+            
             <div class="dimension-item dim-confidentiality">
                 <div class="dimension-name">Confidentiality</div>
+                <div class="dimension-desc">
+                    Controls who can access information. Traditional CIA element focused on preventing unauthorized disclosure.
+                </div>
             </div>
+            
             <div class="dimension-item dim-integrity">
                 <div class="dimension-name">Integrity</div>
+                <div class="dimension-desc">
+                    Ensures data remains unaltered. Traditional CIA element protecting against unauthorized modification.
+                </div>
             </div>
+            
             <div class="dimension-item dim-availability">
                 <div class="dimension-name">Availability</div>
+                <div class="dimension-desc">
+                    Guarantees authorized access when needed. Traditional CIA element ensuring systems remain operational.
+                </div>
             </div>
+            
             <div class="dimension-item dim-authenticity">
-                <div class="dimension-name">Authenticity <span style="background: #fbbf24; color: #78350f; padding: 2px 8px; border-radius: 8px; font-size: 0.7em;">ELEVATED</span></div>
+                <div class="dimension-name">
+                    Authenticity
+                    <span class="elevated-badge">ELEVATED</span>
+                </div>
+                <div class="dimension-desc">
+                    Did this asset come from the approved source, and has its custody been unbroken? Critical for detecting 
+                    AI data poisoning and supply chain attacks that integrity checks alone cannot catch.
+                </div>
             </div>
+            
             <div class="dimension-item dim-nonrepudiation">
-                <div class="dimension-name">Non-Repudiation <span style="background: #fbbf24; color: #78350f; padding: 2px 8px; border-radius: 8px; font-size: 0.7em;">ELEVATED</span></div>
+                <div class="dimension-name">
+                    Non-Repudiation
+                    <span class="elevated-badge">ELEVATED</span>
+                </div>
+                <div class="dimension-desc">
+                    Is this data truthful or legitimate, and can we prove the actor's liability for its creation? 
+                    Essential for accountability in automated systems and AI-driven threats.
+                </div>
+            </div>
+        </div>
+        
+        <div class="advantages">
+            <h2>Why SPHERE Over CIA?</h2>
+            <div class="advantage-grid">
+                <div class="advantage-item">
+                    <h3>Reveals Hidden Risks</h3>
+                    <p>
+                        Authenticity and Non-Repudiation are no longer buried under Integrity. Each dimension 
+                        is independently monitored and managed.
+                    </p>
+                </div>
+                
+                <div class="advantage-item">
+                    <h3>Dynamic Relationships</h3>
+                    <p>
+                        3D visualization shows how dimensions interact over time, revealing risk propagation 
+                        paths invisible in flat models.
+                    </p>
+                </div>
+                
+                <div class="advantage-item">
+                    <h3>AI Threat Detection</h3>
+                    <p>
+                        Specifically designed to detect modern threats like AI data poisoning, OSINT aggregation 
+                        attacks, and supply chain compromises.
+                    </p>
+                </div>
+                
+                <div class="advantage-item">
+                    <h3>Extensible Framework</h3>
+                    <p>
+                        New dimensions can be added to the sphere surface as threats evolve, unlike rigid 
+                        triangle structures.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -136,55 +309,44 @@
         
         const orbitRadius = 3;
         
-        // Wireframe sphere
         const sphereGeo = new THREE.SphereGeometry(orbitRadius, 24, 24);
         const sphereMat = new THREE.MeshBasicMaterial({ color: 0x667eea, wireframe: true, transparent: true, opacity: 0.15 });
         const sphere = new THREE.Mesh(sphereGeo, sphereMat);
         scene.add(sphere);
         
-        // Ring configurations
         const configs = [
-            { color: 0x3b82f6, xRot: 0.003, yRot: 0.004 },      // Blue - Confidentiality
-            { color: 0x10b981, xRot: -0.004, yRot: 0.003 },     // Green - Integrity
-            { color: 0xf59e0b, xRot: 0.004, yRot: -0.003 },     // Orange - Availability
-            { color: 0x8b5cf6, xRot: -0.003, yRot: -0.004 },    // Purple - Authenticity
-            { color: 0xef4444, xRot: 0.003, yRot: 0.004 }       // Red - Non-Repudiation
+            { color: 0x3b82f6, xRot: 0.003, yRot: 0.004 },
+            { color: 0x10b981, xRot: -0.004, yRot: 0.003 },
+            { color: 0xf59e0b, xRot: 0.004, yRot: -0.003 },
+            { color: 0x8b5cf6, xRot: -0.003, yRot: -0.004 },
+            { color: 0xef4444, xRot: 0.003, yRot: 0.004 }
         ];
         
         const rings = [];
         
-        configs.forEach((config, i) => {
-            // Create ring group
+        configs.forEach((config) => {
             const ringGroup = new THREE.Group();
             scene.add(ringGroup);
             
-            // Ring torus
             const ringGeo = new THREE.TorusGeometry(orbitRadius, 0.04, 16, 100);
             const ringMat = new THREE.MeshBasicMaterial({ color: config.color, transparent: true, opacity: 0.6 });
             const ring = new THREE.Mesh(ringGeo, ringMat);
             ringGroup.add(ring);
             
-            // Ball marker on ring - SAME COLOR
             const ballGeo = new THREE.SphereGeometry(0.2, 16, 16);
             const ballMat = new THREE.MeshPhongMaterial({ color: config.color, emissive: config.color, emissiveIntensity: 0.6 });
             const ball = new THREE.Mesh(ballGeo, ballMat);
-            
-            // Position ball ON the ring at a fixed spot
             ball.position.set(orbitRadius, 0, 0);
             ring.add(ball);
             
-            rings.push({ group: ringGroup, ring: ring, xRot: config.xRot, yRot: config.yRot });
+            rings.push({ group: ringGroup, xRot: config.xRot, yRot: config.yRot });
         });
         
-        // Lighting
-        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambient);
-        
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
         const light1 = new THREE.PointLight(0xffffff, 0.8);
         light1.position.set(10, 10, 10);
         scene.add(light1);
         
-        // Mouse
         let isDragging = false;
         let prevMouse = { x: 0, y: 0 };
         let userRot = { x: 0, y: 0 };
@@ -204,11 +366,9 @@
         
         canvas.addEventListener('mouseup', () => isDragging = false);
         
-        // Animate
         function animate() {
             requestAnimationFrame(animate);
             
-            // Each ring rotates in 3D
             rings.forEach(r => {
                 r.group.rotation.x += r.xRot;
                 r.group.rotation.y += r.yRot;
