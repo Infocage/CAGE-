@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPHERE Model</title>
+    <title>SPHERE Security Model - Beyond CIA</title>
     <style>
         * {
             margin: 0;
@@ -13,53 +13,84 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #3b0764 100%);
+            color: white;
             min-height: 100vh;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.6);
+            color: #00ff41;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            opacity: 0.9;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
         }
         
-        .header {
-            text-align: center;
-            color: white;
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .problem-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            border-radius: 20px;
+            padding: 40px;
             margin-bottom: 60px;
         }
         
-        .header h1 {
-            font-size: 3.5em;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .problem-box h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            color: #ef4444;
         }
         
-        .header .subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
+        .problem-list {
+            font-size: 1.2em;
+            line-height: 2;
+        }
+        
+        .problem-list li {
             margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
         }
         
-        .intro {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+        .problem-list li:before {
+            content: "❌";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+        
+        .solution-box {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid rgba(0, 255, 65, 0.3);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 40px;
+            margin-bottom: 60px;
         }
         
-        .intro h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
+        .solution-box h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
             color: #00ff41;
-        }
-        
-        .intro p {
-            font-size: 1.1em;
-            line-height: 1.8;
         }
         
         #canvas-container {
@@ -69,7 +100,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+            margin: 40px 0 20px;
         }
         
         canvas {
@@ -84,211 +115,353 @@
         .controls {
             text-align: center;
             margin-bottom: 40px;
-            color: white;
+            color: rgba(255,255,255,0.8);
             font-size: 1.1em;
         }
         
-        .dimension-list {
-            background: white;
-            padding: 40px;
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .dimension-card {
+            background: rgba(255,255,255,0.05);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 40px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            border: 2px solid;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .dimension-list h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            color: #1a1a2e;
+        .dimension-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
         
-        .dimension-item {
-            padding: 25px;
+        .dim-card-conf {
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        .dim-card-int {
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+        
+        .dim-card-avail {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+        
+        .dim-card-auth {
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .dim-card-nonrep {
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .dimension-card h3 {
+            font-size: 2em;
             margin-bottom: 15px;
-            border-radius: 15px;
-            transition: transform 0.2s;
         }
         
-        .dimension-item:hover {
-            transform: translateX(10px);
-        }
-        
-        .dim-confidentiality { background: #3b82f6; color: white; }
-        .dim-integrity { background: #10b981; color: white; }
-        .dim-availability { background: #f59e0b; color: white; }
-        .dim-authenticity { background: #8b5cf6; color: white; }
-        .dim-nonrepudiation { background: #ef4444; color: white; }
-        
-        .dimension-name {
-            font-weight: bold;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-        }
-        
-        .dimension-desc {
-            font-size: 1em;
-            opacity: 0.95;
-            line-height: 1.6;
-        }
+        .dim-conf { color: #3b82f6; }
+        .dim-int { color: #10b981; }
+        .dim-avail { color: #f59e0b; }
+        .dim-auth { color: #8b5cf6; }
+        .dim-nonrep { color: #ef4444; }
         
         .elevated-badge {
             display: inline-block;
             background: #fbbf24;
             color: #78350f;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.6em;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.5em;
             font-weight: bold;
             margin-left: 10px;
+            vertical-align: middle;
         }
         
-        .advantages {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+        .dimension-card .category {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .dimension-card .description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        .threat-examples {
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        
+        .threat-examples h4 {
+            color: #ef4444;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .threat-examples ul {
+            list-style: none;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .threat-examples li:before {
+            content: "⚠ ";
+            color: #ef4444;
+        }
+        
+        .comparison {
+            background: rgba(255,255,255,0.05);
             border-radius: 20px;
             padding: 40px;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
         }
         
-        .advantages h2 {
+        .comparison h2 {
             font-size: 2.5em;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
             color: #00ff41;
         }
         
-        .advantage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .comparison-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
         }
         
-        .advantage-item {
-            background: rgba(255,255,255,0.05);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .advantage-item h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+        .comparison-table th {
+            background: rgba(0, 255, 65, 0.1);
+            font-size: 1.3em;
             color: #00ff41;
         }
         
-        .advantage-item p {
-            line-height: 1.6;
-            opacity: 0.9;
+        .comparison-table td {
+            font-size: 1.1em;
         }
+        
+        .comparison-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .check { color: #00ff41; }
+        .cross { color: #ef4444; }
     </style>
 </head>
 <body>
+    <div class="hero">
+        <h1>The SPHERE Model</h1>
+        <div class="subtitle">Evolving CIA into a 3D Strategic Security Framework for the AI Age</div>
+    </div>
+    
     <div class="container">
-        <div class="header">
-            <h1>The SPHERE Model</h1>
-            <div class="subtitle">Five Independent Security Dimensions in Dynamic 3D Space</div>
-        </div>
-        
-        <div class="intro">
-            <h2>Beyond the CIA Triad</h2>
-            <p>
-                The SPHERE model revolutionizes security by moving from a flat 2D triangle to a dynamic 3D framework. 
-                Unlike the CIA Triad which hides Authenticity and Non-Repudiation under Integrity, SPHERE elevates 
-                these critical dimensions to first-class status. Each dimension operates independently while revealing 
-                complex risk propagation patterns invisible to traditional models.
-            </p>
-        </div>
-        
-        <div id="canvas-container">
-            <canvas id="sphereCanvas"></canvas>
-        </div>
-        <div class="controls">
-            🖱️ Click and drag to rotate • Watch how rings pass through each other revealing risk interactions
-        </div>
-        
-        <div class="dimension-list">
-            <h2>The Five SPHERE Dimensions</h2>
-            
-            <div class="dimension-item dim-confidentiality">
-                <div class="dimension-name">Confidentiality</div>
-                <div class="dimension-desc">
-                    Controls who can access information. Traditional CIA element focused on preventing unauthorized disclosure.
-                </div>
-            </div>
-            
-            <div class="dimension-item dim-integrity">
-                <div class="dimension-name">Integrity</div>
-                <div class="dimension-desc">
-                    Ensures data remains unaltered. Traditional CIA element protecting against unauthorized modification.
-                </div>
-            </div>
-            
-            <div class="dimension-item dim-availability">
-                <div class="dimension-name">Availability</div>
-                <div class="dimension-desc">
-                    Guarantees authorized access when needed. Traditional CIA element ensuring systems remain operational.
-                </div>
-            </div>
-            
-            <div class="dimension-item dim-authenticity">
-                <div class="dimension-name">
-                    Authenticity
-                    <span class="elevated-badge">ELEVATED</span>
-                </div>
-                <div class="dimension-desc">
-                    Did this asset come from the approved source, and has its custody been unbroken? Critical for detecting 
-                    AI data poisoning and supply chain attacks that integrity checks alone cannot catch.
-                </div>
-            </div>
-            
-            <div class="dimension-item dim-nonrepudiation">
-                <div class="dimension-name">
-                    Non-Repudiation
-                    <span class="elevated-badge">ELEVATED</span>
-                </div>
-                <div class="dimension-desc">
-                    Is this data truthful or legitimate, and can we prove the actor's liability for its creation? 
-                    Essential for accountability in automated systems and AI-driven threats.
-                </div>
+        <!-- The Problem -->
+        <div class="section">
+            <div class="problem-box">
+                <h2>Why CIA Needs Evolution</h2>
+                <p style="font-size: 1.2em; margin-bottom: 30px; line-height: 1.8;">
+                    The CIA Triad established fundamental security principles that remain valid today. However, 
+                    it was designed for a simpler threat landscape. SPHERE doesn't replace CIA - it evolves it 
+                    by elevating hidden dimensions and adding a 3D perspective to reveal complex risk relationships 
+                    invisible to the traditional 2D model.
+                </p>
+                
+                <ul class="problem-list">
+                    <li><strong>2D Model Limitations:</strong> Flat triangle cannot represent complex, dynamic risk relationships</li>
+                    <li><strong>Hidden Dimensions:</strong> Authenticity and Non-Repudiation buried under Integrity, diminishing their critical importance</li>
+                    <li><strong>AI Threat Blindness:</strong> Cannot detect AI data poisoning, deepfakes, or synthetic content attacks</li>
+                    <li><strong>Supply Chain Gaps:</strong> No way to verify legitimate origin and unbroken chain of custody</li>
+                    <li><strong>Accountability Failures:</strong> Cannot prove actor liability in automated, AI-driven systems</li>
+                    <li><strong>Static Framework:</strong> Rigid structure cannot adapt to emerging threat categories</li>
+                </ul>
             </div>
         </div>
         
-        <div class="advantages">
-            <h2>Why SPHERE Over CIA?</h2>
-            <div class="advantage-grid">
-                <div class="advantage-item">
-                    <h3>Reveals Hidden Risks</h3>
-                    <p>
-                        Authenticity and Non-Repudiation are no longer buried under Integrity. Each dimension 
-                        is independently monitored and managed.
-                    </p>
+        <!-- The Solution -->
+        <div class="section">
+            <div class="solution-box">
+                <h2>SPHERE: Building on CIA's Foundation</h2>
+                <p style="font-size: 1.2em; line-height: 1.8;">
+                    SPHERE preserves CIA's core principles while evolving the model for modern threats. By elevating 
+                    Authenticity and Non-Repudiation from sub-components to independent dimensions, and adding a 3D 
+                    perspective, SPHERE reveals risk propagation patterns invisible to traditional models. The original 
+                    three dimensions remain - we're enhancing, not replacing.
+                </p>
+            </div>
+            
+            <div id="canvas-container">
+                <canvas id="sphereCanvas"></canvas>
+            </div>
+            <div class="controls">
+                🖱️ Click and drag to rotate • Watch dimensions interact as rings pass through each other
+            </div>
+        </div>
+        
+        <!-- The Five Dimensions -->
+        <div class="section">
+            <h2 style="font-size: 2.5em; margin-bottom: 40px; text-align: center; color: #00ff41;">The Five SPHERE Dimensions</h2>
+            
+            <div class="dimensions-grid">
+                <!-- Confidentiality -->
+                <div class="dimension-card dim-card-conf">
+                    <div class="category">Traditional CIA Element</div>
+                    <h3 class="dim-conf">Confidentiality</h3>
+                    <div class="description">
+                        Controls who can access information. Prevents unauthorized disclosure through encryption, 
+                        access controls, and data classification. Critical for protecting sensitive data from 
+                        unauthorized viewing or exfiltration.
+                    </div>
                 </div>
                 
-                <div class="advantage-item">
-                    <h3>Dynamic Relationships</h3>
-                    <p>
-                        3D visualization shows how dimensions interact over time, revealing risk propagation 
-                        paths invisible in flat models.
-                    </p>
+                <!-- Integrity -->
+                <div class="dimension-card dim-card-int">
+                    <div class="category">Traditional CIA Element</div>
+                    <h3 class="dim-int">Integrity</h3>
+                    <div class="description">
+                        Ensures data remains unaltered by unauthorized parties. Uses checksums, hashes, and digital 
+                        signatures to detect modifications. Protects against tampering and corruption.
+                    </div>
                 </div>
                 
-                <div class="advantage-item">
-                    <h3>AI Threat Detection</h3>
-                    <p>
-                        Specifically designed to detect modern threats like AI data poisoning, OSINT aggregation 
-                        attacks, and supply chain compromises.
-                    </p>
+                <!-- Availability -->
+                <div class="dimension-card dim-card-avail">
+                    <div class="category">Traditional CIA Element</div>
+                    <h3 class="dim-avail">Availability</h3>
+                    <div class="description">
+                        Guarantees authorized users can access systems and data when needed. Addresses denial of 
+                        service, redundancy, and disaster recovery. Ensures business continuity.
+                    </div>
                 </div>
                 
-                <div class="advantage-item">
-                    <h3>Extensible Framework</h3>
-                    <p>
-                        New dimensions can be added to the sphere surface as threats evolve, unlike rigid 
-                        triangle structures.
-                    </p>
+                <!-- Authenticity -->
+                <div class="dimension-card dim-card-auth">
+                    <div class="category">Elevated Dimension</div>
+                    <h3 class="dim-auth">
+                        Authenticity
+                        <span class="elevated-badge">ELEVATED</span>
+                    </h3>
+                    <div class="description">
+                        <strong>Did this asset come from the approved source, and has its custody been unbroken?</strong>
+                        <br><br>
+                        Authenticity verifies legitimate origin and chain of custody. Unlike integrity which only 
+                        confirms "unchanged," authenticity proves "from the right source." Critical for detecting 
+                        AI-generated content, deepfakes, and supply chain attacks where malicious data is injected 
+                        at the source.
+                    </div>
+                    <div class="threat-examples">
+                        <h4>Modern Threats Requiring Authenticity:</h4>
+                        <ul>
+                            <li>AI data poisoning - fake training data injected at source</li>
+                            <li>Supply chain compromises - malicious code from trusted vendors</li>
+                            <li>Deepfake attacks - synthetic media appearing authentic</li>
+                            <li>Model theft - unauthorized AI model distribution</li>
+                        </ul>
+                    </div>
                 </div>
+                
+                <!-- Non-Repudiation -->
+                <div class="dimension-card dim-card-nonrep">
+                    <div class="category">Elevated Dimension</div>
+                    <h3 class="dim-nonrep">
+                        Non-Repudiation
+                        <span class="elevated-badge">ELEVATED</span>
+                    </h3>
+                    <div class="description">
+                        <strong>Is this data truthful or legitimate, and can we prove the actor's liability for its creation?</strong>
+                        <br><br>
+                        Non-Repudiation ensures actions cannot be denied and actors can be held accountable. 
+                        Provides cryptographic proof of who did what and when. Essential in AI-driven systems 
+                        where automated decisions need attribution and accountability chains must be unbreakable.
+                    </div>
+                    <div class="threat-examples">
+                        <h4>Modern Threats Requiring Non-Repudiation:</h4>
+                        <ul>
+                            <li>AI decision accountability - proving which model made which decision</li>
+                            <li>Automated fraud - attribution in high-speed trading/transactions</li>
+                            <li>Regulatory compliance - proving who authorized what action</li>
+                            <li>Incident forensics - establishing timeline and responsibility</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparison Table -->
+        <div class="section">
+            <div class="comparison">
+                <h2>CIA vs SPHERE Comparison</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>CIA Triad</th>
+                            <th>SPHERE Model</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dimensional Structure</strong></td>
+                            <td><span class="cross">✗</span> 2D flat triangle</td>
+                            <td><span class="check">✓</span> 3D dynamic sphere</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Authenticity as First-Class</strong></td>
+                            <td><span class="cross">✗</span> Hidden under Integrity</td>
+                            <td><span class="check">✓</span> Independent dimension</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Non-Repudiation Focus</strong></td>
+                            <td><span class="cross">✗</span> Minor sub-component</td>
+                            <td><span class="check">✓</span> Elevated to core dimension</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI Threat Detection</strong></td>
+                            <td><span class="cross">✗</span> Blind to data poisoning, deepfakes</td>
+                            <td><span class="check">✓</span> Designed for AI-age threats</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Supply Chain Security</strong></td>
+                            <td><span class="cross">✗</span> Cannot verify origin/custody</td>
+                            <td><span class="check">✓</span> Authenticity dimension addresses this</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risk Relationships</strong></td>
+                            <td><span class="cross">✗</span> Static, no interaction visibility</td>
+                            <td><span class="check">✓</span> Dynamic visualization of risk propagation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extensibility</strong></td>
+                            <td><span class="cross">✗</span> Rigid 3-point structure</td>
+                            <td><span class="check">✓</span> New dimensions can be added</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accountability in Automation</strong></td>
+                            <td><span class="cross">✗</span> No framework for AI decisions</td>
+                            <td><span class="check">✓</span> Non-Repudiation ensures attribution</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
