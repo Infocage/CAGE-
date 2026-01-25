@@ -19,7 +19,6 @@ body {
     min-height: 100vh;
 }
 
-/* HERO */
 .hero {
     text-align: center;
     padding: 80px 20px 40px;
@@ -46,7 +45,6 @@ body {
     opacity: 0.9;
 }
 
-/* ENGINE */
 #engine-wrapper {
     max-width: 1400px;
     margin: 0 auto;
@@ -72,7 +70,6 @@ canvas {
     display: block;
 }
 
-/* CONTENT */
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -208,6 +205,7 @@ camera.position.z = 7;
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
 
+// Shield background
 const shieldShape = new THREE.Shape();
 shieldShape.moveTo(0, 2.5);
 shieldShape.lineTo(-2, 1.8);
@@ -217,54 +215,134 @@ shieldShape.quadraticCurveTo(2, -2.5, 2, -0.8);
 shieldShape.lineTo(2, 1.8);
 shieldShape.lineTo(0, 2.5);
 
-const shieldGeometry = new THREE.ExtrudeGeometry(shieldShape, { depth: 0.8, bevelEnabled: false });
+const extrudeSettings = { depth: 0.8, bevelEnabled: false };
+const shieldGeometry = new THREE.ExtrudeGeometry(shieldShape, extrudeSettings);
 
-const shield = new THREE.Mesh(
-    shieldGeometry,
-    new THREE.MeshPhongMaterial({ color: 0x667eea, transparent: true, opacity: 0.15 })
+// Wireframe shield
+const shieldEdges = new THREE.EdgesGeometry(shieldGeometry);
+const shieldWireframe = new THREE.LineSegments(
+    shieldEdges,
+    new THREE.LineBasicMaterial({ color: 0x667eea, transparent: true, opacity: 0.4 })
 );
+shieldWireframe.position.z = -0.4;
+scene.add(shieldWireframe);
+
+// Solid shield faces
+const shieldMaterial = new THREE.MeshPhongMaterial({ 
+    color: 0x667eea,
+    transparent: true,
+    opacity: 0.15,
+    side: THREE.DoubleSide
+});
+const shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
 shield.position.z = -0.4;
 scene.add(shield);
 
-function createGear(r, t, d) {
-    const s = new THREE.Shape();
-    const step = (Math.PI * 2) / t;
-    for (let i = 0; i < t; i++) {
-        const a = i * step;
-        if (i === 0) s.moveTo(Math.cos(a)*r, Math.sin(a)*r);
-        s.lineTo(Math.cos(a+step*0.3)*(r+d), Math.sin(a+step*0.3)*(r+d));
-        s.lineTo(Math.cos(a+step*0.7)*(r+d), Math.sin(a+step*0.7)*(r+d));
-        s.lineTo(Math.cos(a+step)*r, Math.sin(a+step)*r);
+// CAGE wireframe sphere
+const cageSphereGeometry = new THREE.SphereGeometry(2.8, 32, 32);
+const cageSphereMaterial = new THREE.MeshBasicMaterial({
+    color: 0xec4899,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.3
+});
+const cageSphere = new THREE.Mesh(cageSphereGeometry, cageSphereMaterial);
+scene.add(cageSphere);
+
+// Gear creation function
+function createGear(radius, teeth, toothDepth) {
+    const shape = new THREE.Shape();
+    const angleStep = (Math.PI * 2) / teeth;
+    
+    for (let i = 0; i < teeth; i++) {
+        const angle1 = i * angleStep;
+        const angle2 = angle1 + angleStep * 0.35;
+        const angle3 = angle1 + angleStep * 0.65;
+        const angle4 = (i + 1) * angleStep;
+        
+        const innerRadius = radius;
+        const outerRadius = radius + toothDepth;
+        
+        if (i === 0) {
+            shape.moveTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
+        } else {
+            shape.lineTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
+        }
+        shape.lineTo(Math.cos(angle2) * outerRadius, Math.sin(angle2) * outerRadius);
+        shape.lineTo(Math.cos(angle3) * outerRadius, Math.sin(angle3) * outerRadius);
+        shape.lineTo(Math.cos(angle4) * innerRadius, Math.sin(angle4) * innerRadius);
     }
-    s.closePath();
-    return s;
+    shape.closePath();
+    
+    const holePath = new THREE.Path();
+    holePath.absarc(0, 0, radius * 0.3, 0, Math.PI * 2, false);
+    shape.holes.push(holePath);
+    
+    return shape;
 }
 
+// Three gears with magenta/pink security colors
+const gearConfigs = [
+    { x: 0, y: 0.5, radius: 0.55, teeth: 10, color: 0xec4899, speed: 0.02 },
+    { x: -0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xf472b6, speed: -0.022 },
+    { x: 0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xdb2777, speed: -0.022 }
+];
+
 const gears = [];
-[
-    {x:0,y:0.5,r:0.55,t:10,c:0xec4899,s:0.02},
-    {x:-0.65,y:-0.6,r:0.5,t:9,c:0xf472b6,s:-0.022},
-    {x:0.65,y:-0.6,r:0.5,t:9,c:0xdb2777,s:-0.022}
-].forEach(g=>{
-    const geo = new THREE.ExtrudeGeometry(createGear(g.r,g.t,0.1),{depth:0.2,bevelEnabled:true});
-    const mesh = new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:g.c,emissive:g.c}));
-    mesh.position.set(g.x,g.y,0.5);
-    scene.add(mesh);
-    gears.push({m:mesh,s:g.s});
+
+gearConfigs.forEach(config => {
+    const gearShape = createGear(config.radius, config.teeth, 0.1);
+    
+    const gearExtrudeSettings = {
+        depth: 0.2,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.03,
+        bevelSegments: 2
+    };
+    
+    const gearGeometry = new THREE.ExtrudeGeometry(gearShape, gearExtrudeSettings);
+    const gearMaterial = new THREE.MeshPhongMaterial({ 
+        color: config.color,
+        emissive: config.color,
+        emissiveIntensity: 0.4,
+        shininess: 80
+    });
+    const gear = new THREE.Mesh(gearGeometry, gearMaterial);
+    
+    gear.position.set(config.x, config.y, 0.5);
+    scene.add(gear);
+    
+    gears.push({ mesh: gear, speed: config.speed });
 });
 
+// Lighting
 scene.add(new THREE.AmbientLight(0xffffff,0.5));
-const light = new THREE.PointLight(0xec4899,1.5);
-light.position.set(0,5,5);
-scene.add(light);
 
+const topLight = new THREE.PointLight(0xec4899, 1.5);
+topLight.position.set(0, 5, 5);
+scene.add(topLight);
+
+const bottomLight = new THREE.PointLight(0xf472b6, 1);
+bottomLight.position.set(0, -3, 3);
+scene.add(bottomLight);
+
+// Animation
 function animate(){
     requestAnimationFrame(animate);
-    gears.forEach(g=>g.m.rotation.z+=g.s);
+    
+    cageSphere.rotation.y += 0.003;
+    cageSphere.rotation.x += 0.001;
+    
+    gears.forEach(gear => {
+        gear.mesh.rotation.z += gear.speed;
+    });
+    
     renderer.render(scene,camera);
 }
 animate();
 
+// Resize handler
 window.addEventListener('resize',()=>{
     camera.aspect = container.clientWidth/container.clientHeight;
     camera.updateProjectionMatrix();
