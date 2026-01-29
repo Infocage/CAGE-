@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAGE Framework - Continuous Active Governance Engine</title>
+    <title>CAGE - Continuous Active Governance Engine</title>
     <style>
         * {
             margin: 0;
@@ -13,35 +13,61 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #3b0764 100%);
+            background: linear-gradient(135deg, #0a1628 0%, #1a1a2e 50%, #1e3a8a 100%);
             color: white;
+            min-height: 100vh;
         }
         
         .hero {
             text-align: center;
             padding: 80px 20px 60px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
         }
         
         .hero h1 {
             font-size: 5em;
             margin-bottom: 20px;
-            letter-spacing: 12px;
-            text-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+            letter-spacing: 10px;
+            text-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
         }
         
-        .hero .subtitle {
+        .hero .acronym {
             font-size: 1.8em;
-            margin-bottom: 15px;
-            color: rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            color: #ec4899;
         }
         
         .hero .tagline {
-            font-size: 1.2em;
-            color: rgba(255,255,255,0.7);
+            font-size: 1.3em;
+            opacity: 0.9;
             max-width: 900px;
-            margin: 20px auto 0;
-            line-height: 1.6;
+            margin: 0 auto;
+        }
+        
+        #engine-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+        
+        #engine-label {
+            text-align: center;
+            color: #ec4899;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        #canvas-container {
+            width: 100%;
+            height: 600px;
+            background: radial-gradient(circle, #1a1a2e 0%, #0a0a0a 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        
+        canvas {
+            display: block;
         }
         
         .container {
@@ -54,511 +80,822 @@
             margin-bottom: 80px;
         }
         
-        .section-title {
-            font-size: 2.5em;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #00ff41;
-        }
-        
-        .problem-solution {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+        .intro-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 40px;
             margin-bottom: 60px;
         }
         
-        .box {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            border: 2px solid;
+        .intro-box h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            color: #ec4899;
         }
         
-        .problem-box {
-            border-color: rgba(239, 68, 68, 0.5);
-        }
-        
-        .solution-box {
-            border-color: rgba(0, 255, 65, 0.5);
-        }
-        
-        .box h3 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        
-        .box ul {
-            list-style: none;
-            font-size: 1.1em;
+        .intro-box p {
+            font-size: 1.2em;
             line-height: 1.8;
-        }
-        
-        .box ul li {
-            margin-bottom: 15px;
-            padding-left: 30px;
-            position: relative;
-        }
-        
-        .box ul li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        
-        .speed-mismatch {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid rgba(239, 68, 68, 0.5);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 60px;
-            text-align: center;
-        }
-        
-        .speed-mismatch h3 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #ef4444;
-        }
-        
-        .speed-comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .speed-item {
-            padding: 30px;
-            border-radius: 15px;
-        }
-        
-        .human-speed {
-            background: rgba(59, 130, 246, 0.2);
-            border: 2px solid rgba(59, 130, 246, 0.5);
-        }
-        
-        .threat-speed {
-            background: rgba(239, 68, 68, 0.2);
-            border: 2px solid rgba(239, 68, 68, 0.5);
-        }
-        
-        .speed-number {
-            font-size: 3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-        
-        .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 35px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-        }
-        
-        .card-icon {
-            font-size: 3.5em;
             margin-bottom: 20px;
         }
         
-        .card h3 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-        }
-        
-        .card p {
-            font-size: 1em;
-            color: rgba(255,255,255,0.8);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-        
-        .card a {
-            display: inline-block;
-            padding: 12px 35px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .card a:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
-        }
-        
-        .regulations {
-            background: rgba(255,255,255,0.05);
+        .architecture-diagram {
+            background: rgba(10, 22, 40, 0.9);
+            border: 2px solid rgba(236, 72, 153, 0.3);
             border-radius: 20px;
             padding: 40px;
-            margin-bottom: 60px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin-bottom: 40px;
         }
         
-        .regulations h3 {
-            font-size: 2em;
-            margin-bottom: 25px;
+        .diagram-title {
+            font-size: 1.5em;
+            color: #ec4899;
+            margin-bottom: 20px;
             text-align: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .ascii-art {
             color: #00ff41;
+            font-size: 0.9em;
+            line-height: 1.4;
+            white-space: pre;
         }
         
-        .reg-grid {
+        .component-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
         
-        .reg-item {
-            background: rgba(102, 126, 234, 0.2);
+        .component-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3);
+        }
+        
+        .component-card h3 {
+            font-size: 1.8em;
+            color: #ec4899;
+            margin-bottom: 15px;
+        }
+        
+        .component-card p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+        
+        .stakeholder-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .stakeholder-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #8b5cf6;
+        }
+        
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .stakeholder-card {
+            background: rgba(255,255,255,0.05);
             padding: 25px;
             border-radius: 15px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-left: 4px solid;
         }
         
-        .reg-item h4 {
-            font-size: 1.4em;
-            margin-bottom: 10px;
-            color: #667eea;
+        .auditor { border-color: #3b82f6; }
+        .leadership { border-color: #f59e0b; }
+        .regulator { border-color: #10b981; }
+        
+        .stakeholder-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 12px;
         }
         
-        .cage-process {
-            background: rgba(0, 255, 65, 0.05);
-            border: 2px solid rgba(0, 255, 65, 0.3);
+        .stakeholder-card ul {
+            list-style: none;
+            font-size: 1em;
+            line-height: 1.7;
+        }
+        
+        .stakeholder-card li:before {
+            content: "→ ";
+            color: #ec4899;
+        }
+        
+        .key-features {
+            background: rgba(255,255,255,0.05);
             border-radius: 20px;
             padding: 40px;
-            margin-bottom: 60px;
         }
         
-        .cage-process h3 {
-            font-size: 2em;
+        .key-features h2 {
+            font-size: 2.5em;
             margin-bottom: 30px;
             text-align: center;
             color: #00ff41;
         }
         
-        .process-steps {
+        .feature-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
         }
         
-        .process-step {
-            background: rgba(102, 126, 234, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
+        .feature-item {
+            background: rgba(0, 255, 65, 0.05);
+            border-left: 4px solid #00ff41;
+            padding: 25px;
+            border-radius: 10px;
         }
         
-        .process-number {
-            font-size: 3em;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .feature-item h4 {
+            font-size: 1.4em;
             color: #00ff41;
-        }
-        
-        .process-title {
-            font-size: 1.5em;
-            font-weight: bold;
             margin-bottom: 10px;
         }
         
-        @media (max-width: 968px) {
-            .hero h1 {
-                font-size: 3em;
-                letter-spacing: 6px;
+        .feature-item p {
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+        
+        .box {
+            background: rgba(236,72,153,0.1);
+            border: 2px solid rgba(236,72,153,0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .box h2 {
+            color: #ec4899;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .box p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        /* Strategic Resources Section - NEW */
+        .strategic-resources {
+            margin: 80px 0;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 20px;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        .strategic-resources h2 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ec4899;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .resource-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(236, 72, 153, 0.2);
+            border-radius: 15px;
+            padding: 35px 30px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .resource-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .resource-card:hover {
+            border-color: #ec4899;
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(236, 72, 153, 0.3);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .resource-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .resource-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #ec4899;
+        }
+        
+        .resource-card p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        
+        .resource-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .meta-item {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .strategic-resources {
+                padding: 40px 20px;
             }
             
-            .problem-solution,
-            .speed-comparison,
-            .process-steps {
+            .resources-grid {
                 grid-template-columns: 1fr;
             }
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(0,0,0,0.3);
-            color: rgba(255,255,255,0.5);
+            
+            .hero h1 {
+                font-size: 3em;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1>C.A.G.E.</h1>
-        <div class="subtitle">Continuous Active Governance Engine</div>
+        <div class="acronym">Continuous Active Governance Engine</div>
         <div class="tagline">
-            Automated security governance that operates at threat speed - moving beyond the CIA Triad 
-            to address modern challenges like AI data poisoning, supply chain attacks, and regulatory compliance gaps
+            Real-Time Security Governance Framework - Integrating Your Entire Risk System from Top to Bottom
+        </div>
+    </div>
+    
+    <div id="engine-wrapper">
+        <div id="engine-label">LIVE GOVERNANCE ENGINE · CONTINUOUS STATE</div>
+        <div id="canvas-container">
+            <canvas id="cageCanvas"></canvas>
         </div>
     </div>
     
     <div class="container">
-        <!-- Problem & Solution -->
+        <!-- Introduction -->
         <div class="section">
-            <div class="problem-solution">
-                <div class="box problem-box">
-                    <h3 style="color: #ef4444;">❌ The Problem</h3>
-                    <ul>
-                        <li>CIA Triad hides Authenticity & Non-Repudiation under Integrity</li>
-                        <li>Quarterly audits vs continuous AI-powered threats</li>
-                        <li>90-day governance cycles leave organizations blind</li>
-                        <li>Traditional models can't detect AI data poisoning</li>
-                        <li>DORA, NIS2, CRA demand real-time compliance</li>
-                        <li>Manual processes can't keep pace with threat evolution</li>
-                    </ul>
-                </div>
-                
-                <div class="box solution-box">
-                    <h3 style="color: #00ff41;">✓ The Solution</h3>
-                    <ul>
-                        <li>SPHERE: 5 independent security dimensions</li>
-                        <li>CAGE: Automated continuous governance</li>
-                        <li>Real-time monitoring & drift detection</li>
-                        <li>Automated intervention & remediation</li>
-                        <li>Instant compliance verification</li>
-                        <li>Audit trail generation at threat speed</li>
-                    </ul>
-                </div>
+            <div class="intro-box">
+                <h2>Not a Replacement - An Integration Framework</h2>
+                <p>
+                    CAGE is <strong>not replacing your ISMS</strong> (ISO 27001, NIST, etc.). It's the governance 
+                    framework that integrates all your security systems, policies, and controls into a unified, 
+                    real-time view. Think of it as the connective tissue that makes your entire security program 
+                    work together coherently.
+                </p>
+                <p>
+                    Instead of quarterly audits discovering compliance drift 90 days too late, CAGE provides 
+                    continuous verification that your governance intent is being executed correctly across all 
+                    systems - right now.
+                </p>
             </div>
         </div>
         
-        <!-- Speed Mismatch -->
+        <!-- Main Architecture -->
         <div class="section">
-            <div class="speed-mismatch">
-                <h3>⚠ The Unmanaged Risk: Speed Mismatch</h3>
-                <p style="font-size: 1.2em; margin-bottom: 30px;">
-                    The critical gap between human governance cycles and AI-driven threat speed creates massive exposure
-                </p>
-                <div class="speed-comparison">
-                    <div class="speed-item human-speed">
-                        <div class="speed-number">~90 Days</div>
-                        <h4 style="font-size: 1.5em; margin-bottom: 15px;">Human Governance</h4>
-                        <p>Quarterly audits, periodic reviews, manual compliance checks</p>
-                    </div>
-                    <div class="speed-item threat-speed">
-                        <div class="speed-number" style="color: #ef4444;">24/7</div>
-                        <h4 style="font-size: 1.5em; margin-bottom: 15px;">AI Threat Speed</h4>
-                        <p>Continuous attacks, OSINT aggregation, automated exploitation</p>
-                    </div>
+            <div class="architecture-diagram">
+                <div class="diagram-title">CAGE Architecture Overview</div>
+                <div class="ascii-art">
+                     External Environment
+        (Threats, Law, Regulation, Market, OSINT, AI Drift)
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────┐
+│                         CAGE                            │
+│         Continuous Active Governance Engine              │
+│                                                         │
+│  ┌───────────────┐   ┌────────────────┐   ┌─────────┐ │
+│  │ Governance    │   │ Risk Evaluation │   │ Policy  │ │
+│  │ Intent        │◀─▶│ & Impact Logic │◀─▶│ Logic   │ │
+│  └───────────────┘   └────────────────┘   └─────────┘ │
+│           ▲                    ▲                 ▲     │
+│           │                    │                 │     │
+│  ┌───────────────────────────────────────────────────┐│
+│  │               Continuous State View                ││
+│  │  (Compliance, Security Posture, Drift, Exceptions) ││
+│  └───────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────┘
+           ▲                 ▲                 ▲
+           │                 │                 │
+   ┌────────────┐    ┌────────────┐    ┌────────────┐
+   │  ISMS /    │    │ Operations │    │  External  │
+   │ Controls   │    │ & Systems  │    │  Auditors  │
+   │ (ISO,      │    │            │    │ Regulators │
+   │ NIST, etc) │    │            │    │ Leadership │
+   └────────────┘    └────────────┘    └────────────┘
                 </div>
             </div>
             
-            <!-- Visual Comparison Graph -->
-            <div style="background: rgba(10, 22, 40, 0.8); border: 2px solid rgba(239, 68, 68, 0.4); border-radius: 20px; padding: 30px; margin-top: 40px; backdrop-filter: blur(10px);">
-                <h3 style="text-align: center; color: #ef4444; font-size: 1.8em; margin-bottom: 25px;">Risk Exposure: Speed Mismatch</h3>
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <canvas id="comparisonChart" style="max-height: 300px;"></canvas>
+            <p style="font-size: 1.1em; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto;">
+                CAGE sits between your governance intent (policies, regulations, risk decisions) and your 
+                technical implementation (systems, controls, operations). It continuously verifies that what 
+                you <em>said</em> should happen is actually <em>happening</em> - and alerts when it's not.
+            </p>
+        </div>
+        
+        <!-- Core Components -->
+        <div class="section">
+            <h2 style="font-size: 2.5em; margin-bottom: 40px; text-align: center; color: #ec4899;">
+                Core CAGE Components
+            </h2>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <h3>Governance Intent</h3>
+                    <p>
+                        Your policies, risk decisions, and compliance requirements translated into machine-readable 
+                        logic. "We must verify user access reviews quarterly" becomes a checkable condition that 
+                        CAGE monitors continuously.
+                    </p>
                 </div>
-                <p style="text-align: center; color: rgba(255,255,255,0.8); margin-top: 20px; font-size: 0.95em;">
-                    Organizations are blind to threats for ~89 days between governance cycles
+                
+                <div class="component-card">
+                    <h3>Risk Evaluation & Impact Logic</h3>
+                    <p>
+                        Real-time assessment engine that evaluates: Does this event/change break our assumptions? 
+                        Does it invalidate risk acceptance? Does it impact compliance? Feeds into automated 
+                        decision-making.
+                    </p>
+                </div>
+                
+                <div class="component-card">
+                    <h3>Policy Logic</h3>
+                    <p>
+                        Integration point for policies from multiple sources - ISO 27001, NIST CSF, DORA, NIS2, 
+                        internal policies. Normalizes them into executable logic that can be continuously verified.
+                    </p>
+                </div>
+                
+                <div class="component-card">
+                    <h3>Continuous State View</h3>
+                    <p>
+                        The "single pane of glass" showing current compliance state, security posture, drift from 
+                        baselines, and active exceptions. This is what auditors, leadership, and regulators see - 
+                        updated in real-time.
+                    </p>
+                </div>
+                
+                <div class="component-card">
+                    <h3>Connectors</h3>
+                    <p>
+                        Integration points to ISMS tools, SIEM/SOAR, monitoring systems, pen test platforms, 
+                        BCP/DR systems. CAGE doesn't replace these - it orchestrates and verifies them.
+                    </p>
+                </div>
+                
+                <div class="component-card">
+                    <h3>Automated Remediation</h3>
+                    <p>
+                        When drift is detected, CAGE can trigger automated corrections (where safe) or escalate 
+                        to humans with full context. Actions are logged for audit trails.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BCP/DR Integration -->
+        <div class="section">
+            <div class="architecture-diagram">
+                <div class="diagram-title">BCP/DR Testing Integration (NIS2/DORA Compliance)</div>
+                <div class="ascii-art">
+Threat Activity / Regulation / Incidents
+               │
+               ▼
+      Testing & Stress Events
+   (Pen tests, Red Team, DR tests)
+               │
+               ▼
+      Observed System Behavior
+   (Failures, gaps, response quality)
+               │
+               ▼
+      Governance Evaluation (CAGE)
+   - Does this break assumptions?
+   - Does this invalidate risk acceptance?
+   - Does this impact compliance?
+               │
+               ▼
+      Decisions & Corrections
+   - Harden controls
+   - Adjust BCP/DR
+   - Change policy
+   - Escalate to leadership
+               │
+               ▼
+      Updated Governance State
+   (Visible to audit, leadership, regulators)
+                </div>
+            </div>
+            
+            <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 25px; border-radius: 10px; margin-top: 30px;">
+                <h4 style="color: #ef4444; font-size: 1.5em; margin-bottom: 15px;">Active Testing Requirement</h4>
+                <p style="font-size: 1.1em; line-height: 1.7;">
+                    NIS2 and DORA require organizations to <strong>actively test</strong> their security controls 
+                    through penetration testing, red teaming, and disaster recovery exercises. CAGE integrates 
+                    these testing results as feedback loops - when a pen test finds a vulnerability, CAGE tracks 
+                    it until verified closed. When a DR test reveals a gap, CAGE ensures it's addressed and the 
+                    governance state is updated.
                 </p>
             </div>
         </div>
         
-        <!-- CAGE Process -->
+        <!-- Multi-Stakeholder Access -->
         <div class="section">
-            <div class="cage-process">
-                <h3>The CAGE Process: Identify → Intervene → Correct</h3>
-                <div class="process-steps">
-                    <div class="process-step">
-                        <div class="process-number">1</div>
-                        <div class="process-title">Identify</div>
-                        <p>Automatically detect policy non-compliance across all SPHERE dimensions in real-time</p>
+            <div class="stakeholder-section">
+                <h2>Multi-Stakeholder Transparency</h2>
+                <p style="text-align: center; font-size: 1.1em; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    Different stakeholders need different views of the same truth. CAGE provides role-based 
+                    access to the continuous compliance state.
+                </p>
+                
+                <div class="stakeholder-grid">
+                    <div class="stakeholder-card auditor">
+                        <h4>🔍 External Auditors</h4>
+                        <ul>
+                            <li>Real-time compliance status</li>
+                            <li>Audit trail of all changes</li>
+                            <li>Evidence collection automated</li>
+                            <li>Drill-down to technical proof</li>
+                            <li>Historical state reconstruction</li>
+                        </ul>
                     </div>
-                    <div class="process-step">
-                        <div class="process-number">2</div>
-                        <div class="process-title">Intervene</div>
-                        <p>Trigger automated remediation workflows without human delay</p>
+                    
+                    <div class="stakeholder-card leadership">
+                        <h4>👔 Leadership</h4>
+                        <ul>
+                            <li>Risk posture dashboard</li>
+                            <li>Compliance status at-a-glance</li>
+                            <li>Impact of incidents on compliance</li>
+                            <li>Resource allocation priorities</li>
+                            <li>Regulatory deadline tracking</li>
+                        </ul>
                     </div>
-                    <div class="process-step">
-                        <div class="process-number">3</div>
-                        <div class="process-title">Correct</div>
-                        <p>Restore security status with automatic audit trail generation</p>
+                    
+                    <div class="stakeholder-card regulator">
+                        <h4>⚖️ Regulators</h4>
+                        <ul>
+                            <li>Incident reporting timelines met</li>
+                            <li>Compliance state verification</li>
+                            <li>Testing regime evidence</li>
+                            <li>Change tracking and approvals</li>
+                            <li>Exception management visibility</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Regulatory Mandates -->
+        <!-- Key Features -->
         <div class="section">
-            <div class="regulations">
-                <h3>Regulatory Compliance Mandates</h3>
-                <div class="reg-grid">
-                    <div class="reg-item">
-                        <h4>EU CRA</h4>
-                        <p>Security across product lifecycle - continuous conformity required</p>
+            <div class="key-features">
+                <h2>Key CAGE Capabilities</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <h4>Identify</h4>
+                        <p>
+                            Automatically detect policy non-compliance, security drift, and regulatory violations 
+                            across all SPHERE dimensions in real-time.
+                        </p>
                     </div>
-                    <div class="reg-item">
-                        <h4>DORA / NIS2</h4>
-                        <p>Real-time incident reporting and auditable continuous accountability</p>
+                    
+                    <div class="feature-item">
+                        <h4>Intervene</h4>
+                        <p>
+                            Trigger automated remediation workflows or escalate to humans with full context. 
+                            Actions are based on governance intent and risk evaluation.
+                        </p>
                     </div>
-                    <div class="reg-item">
-                        <h4>KRITIS</h4>
-                        <p>Critical infrastructure protection with continuous monitoring</p>
+                    
+                    <div class="feature-item">
+                        <h4>Correct</h4>
+                        <p>
+                            Restore security status across affected dimensions. Generate automatic audit trails. 
+                            Update continuous state view for all stakeholders.
+                        </p>
                     </div>
-                    <div class="reg-item">
-                        <h4>US CMMC</h4>
-                        <p>Continuous auditable compliance for defense contractors</p>
+                    
+                    <div class="feature-item">
+                        <h4>Policy Integration</h4>
+                        <p>
+                            Ingest policies from ISO 27001, NIST CSF, DORA, NIS2, CRA, and internal frameworks. 
+                            Normalize into executable logic.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h4>Change Detection</h4>
+                        <p>
+                            When laws change (new NIS2 requirements), when incidents occur, or when systems drift - 
+                            CAGE detects and evaluates impact on compliance state.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <h4>Testing Integration</h4>
+                        <p>
+                            Pen test results, red team findings, and DR exercise outcomes feed into CAGE. 
+                            Tracks findings until verified closed - meets NIS2/DORA active testing requirements.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Interactive Visualizations -->
+        <!-- What CAGE Is Not -->
         <div class="section">
-            <h2 class="section-title">Interactive Visualizations</h2>
-            <div class="cards">
-                <div class="card">
-                    <div class="card-icon">🔺</div>
-                    <h3>CIA vs SPHERE</h3>
-                    <p>Compare the traditional 2D CIA Triad to the dynamic 3D SPHERE security model</p>
-                    <a href="cia-comparison.html">View Comparison</a>
+            <div style="background: rgba(59, 130, 246, 0.1); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 20px; padding: 40px;">
+                <h2 style="font-size: 2.5em; margin-bottom: 25px; color: #3b82f6;">What CAGE Is NOT</h2>
+                <div style="font-size: 1.15em; line-height: 1.8;">
+                    <p style="margin-bottom: 20px;">
+                        ❌ <strong>Not a SIEM replacement</strong> - CAGE integrates with your SIEM, it doesn't replace it
+                    </p>
+                    <p style="margin-bottom: 20px;">
+                        ❌ <strong>Not an ISMS tool replacement</strong> - Your ISO 27001/NIST tools stay in place
+                    </p>
+                    <p style="margin-bottom: 20px;">
+                        ❌ <strong>Not a single technical product</strong> - It's an architectural framework and 
+                        set of integration patterns
+                    </p>
+                    <p style="margin-bottom: 20px;">
+                        ✅ <strong>IS the connective framework</strong> that makes all your security systems 
+                        work together as a coherent, verifiable governance system
+                    </p>
                 </div>
+            </div>
+        </div>
+        
+        <!-- NEW: Strategic Resources Section -->
+        <div class="section">
+            <div class="strategic-resources">
+                <h2>📊 Strategic Resources</h2>
+                <p class="section-subtitle">Business case, regulatory mandates, and implementation guidance for CAGE</p>
                 
-                <div class="card">
-                    <div class="card-icon">🌐</div>
-                    <h3>SPHERE Model</h3>
-                    <p>Interactive 3D visualization of five independent security dimensions</p>
-                    <a href="sphere.html">Explore SPHERE</a>
-                </div>
-                
-                <div class="card">
-                    <div class="card-icon">⚙️</div>
-                    <h3>CAGE Engine</h3>
-                    <p>See the automated governance engine in action</p>
-                    <a href="cage-engine.html">See CAGE</a>
+                <div class="resources-grid">
+                    <a href="executive-summary.html" class="resource-card">
+                        <div class="resource-icon">📋</div>
+                        <h3>Executive Summary</h3>
+                        <p>C-suite overview of the business imperative for continuous governance</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">👔 For Executives</span>
+                            <span class="meta-item">⏱️ 5 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="strategic-mandate.html" class="resource-card">
+                        <div class="resource-icon">⚖️</div>
+                        <h3>Strategic Mandate</h3>
+                        <p>Why continuous governance is now legally required by CRA, DORA, NIS2, and CMMC</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">📜 Regulatory</span>
+                            <span class="meta-item">⏱️ 10 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="implementation.html" class="resource-card">
+                        <div class="resource-icon">🗺️</div>
+                        <h3>Implementation Roadmap</h3>
+                        <p>Phased approach from assessment to production deployment</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">🔧 Technical</span>
+                            <span class="meta-item">⏱️ 15 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="roi-calculator.html" class="resource-card">
+                        <div class="resource-icon">💰</div>
+                        <h3>ROI Calculator</h3>
+                        <p>Interactive tool to quantify business value and cost savings</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">🧮 Interactive</span>
+                            <span class="meta-item">⏱️ 3 min</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="footer">
-        <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>CAGE Framework © 2025 | Shamus Coghlan, CISSP</strong></p>
-        <p>Presented at OWASP Winter Event Berlin - December 2025</p>
-        <p style="margin-top: 15px;">Berlin, Germany | shamuscoghlan@gmail.com</p>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Compliance Comparison Chart
-        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        const container = document.getElementById('canvas-container');
+        const canvas = document.getElementById('cageCanvas');
         
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90'],
-                datasets: [{
-                    label: 'Human Governance Speed',
-                    data: [5, 8, 10, 12, 15, 18, 20, 22, 25, 28],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: '#3b82f6'
-                }, {
-                    label: 'AI/Threat Speed',
-                    data: [10, 25, 45, 70, 100, 140, 185, 240, 305, 380],
-                    borderColor: '#ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                    borderWidth: 4,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointBackgroundColor: '#ef4444',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            color: '#ffffff',
-                            font: {
-                                size: 13,
-                                weight: 'bold'
-                            },
-                            padding: 15
-                        }
-                    },
-                    title: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Risk',
-                            color: '#ffffff',
-                            font: {
-                                size: 13,
-                                weight: 'bold'
-                            }
-                        },
-                        ticks: {
-                            color: '#ffffff',
-                            font: {
-                                size: 11
-                            },
-                            callback: function(value, index) {
-                                if (value === 0) return 'Low';
-                                if (index === this.max) return 'High';
-                                return '';
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Days',
-                            color: '#ffffff',
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
-                        },
-                        ticks: {
-                            color: '#ffffff',
-                            font: {
-                                size: 11
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
-                    }
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 7;
+        
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        
+        // Shield background
+        const shieldShape = new THREE.Shape();
+        shieldShape.moveTo(0, 2.5);
+        shieldShape.lineTo(-2, 1.8);
+        shieldShape.lineTo(-2, -0.8);
+        shieldShape.quadraticCurveTo(-2, -2.5, 0, -3.2);
+        shieldShape.quadraticCurveTo(2, -2.5, 2, -0.8);
+        shieldShape.lineTo(2, 1.8);
+        shieldShape.lineTo(0, 2.5);
+        
+        const extrudeSettings = { depth: 0.8, bevelEnabled: false };
+        const shieldGeometry = new THREE.ExtrudeGeometry(shieldShape, extrudeSettings);
+        
+        // Wireframe shield
+        const shieldEdges = new THREE.EdgesGeometry(shieldGeometry);
+        const shieldWireframe = new THREE.LineSegments(
+            shieldEdges,
+            new THREE.LineBasicMaterial({ color: 0x667eea, transparent: true, opacity: 0.4 })
+        );
+        shieldWireframe.position.z = -0.4;
+        scene.add(shieldWireframe);
+        
+        // Solid shield faces
+        const shieldMaterial = new THREE.MeshPhongMaterial({ 
+            color: 0x667eea,
+            transparent: true,
+            opacity: 0.15,
+            side: THREE.DoubleSide
+        });
+        const shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+        shield.position.z = -0.4;
+        scene.add(shield);
+        
+        // CAGE wireframe sphere
+        const cageSphereGeometry = new THREE.SphereGeometry(2.8, 32, 32);
+        const cageSphereMaterial = new THREE.MeshBasicMaterial({
+            color: 0xec4899,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const cageSphere = new THREE.Mesh(cageSphereGeometry, cageSphereMaterial);
+        scene.add(cageSphere);
+        
+        // Gear creation function
+        function createGear(radius, teeth, toothDepth) {
+            const shape = new THREE.Shape();
+            const angleStep = (Math.PI * 2) / teeth;
+            
+            for (let i = 0; i < teeth; i++) {
+                const angle1 = i * angleStep;
+                const angle2 = angle1 + angleStep * 0.35;
+                const angle3 = angle1 + angleStep * 0.65;
+                const angle4 = (i + 1) * angleStep;
+                
+                const innerRadius = radius;
+                const outerRadius = radius + toothDepth;
+                
+                if (i === 0) {
+                    shape.moveTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
+                } else {
+                    shape.lineTo(Math.cos(angle1) * innerRadius, Math.sin(angle1) * innerRadius);
                 }
+                shape.lineTo(Math.cos(angle2) * outerRadius, Math.sin(angle2) * outerRadius);
+                shape.lineTo(Math.cos(angle3) * outerRadius, Math.sin(angle3) * outerRadius);
+                shape.lineTo(Math.cos(angle4) * innerRadius, Math.sin(angle4) * innerRadius);
             }
+            shape.closePath();
+            
+            const holePath = new THREE.Path();
+            holePath.absarc(0, 0, radius * 0.3, 0, Math.PI * 2, false);
+            shape.holes.push(holePath);
+            
+            return shape;
+        }
+        
+        // Three gears with magenta/pink security colors
+        const gearConfigs = [
+            { x: 0, y: 0.5, radius: 0.55, teeth: 10, color: 0xec4899, speed: 0.02 },
+            { x: -0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xf472b6, speed: -0.022 },
+            { x: 0.65, y: -0.6, radius: 0.5, teeth: 9, color: 0xdb2777, speed: -0.022 }
+        ];
+        
+        const gears = [];
+        
+        gearConfigs.forEach(config => {
+            const gearShape = createGear(config.radius, config.teeth, 0.1);
+            
+            const gearExtrudeSettings = {
+                depth: 0.2,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.03,
+                bevelSegments: 2
+            };
+            
+            const gearGeometry = new THREE.ExtrudeGeometry(gearShape, gearExtrudeSettings);
+            const gearMaterial = new THREE.MeshPhongMaterial({ 
+                color: config.color,
+                emissive: config.color,
+                emissiveIntensity: 0.4,
+                shininess: 80
+            });
+            const gear = new THREE.Mesh(gearGeometry, gearMaterial);
+            
+            gear.position.set(config.x, config.y, 0.5);
+            scene.add(gear);
+            
+            gears.push({ mesh: gear, speed: config.speed });
+        });
+        
+        // Lighting
+        scene.add(new THREE.AmbientLight(0xffffff,0.5));
+        
+        const topLight = new THREE.PointLight(0xec4899, 1.5);
+        topLight.position.set(0, 5, 5);
+        scene.add(topLight);
+        
+        const bottomLight = new THREE.PointLight(0xf472b6, 1);
+        bottomLight.position.set(0, -3, 3);
+        scene.add(bottomLight);
+        
+        // Animation
+        function animate(){
+            requestAnimationFrame(animate);
+            
+            cageSphere.rotation.y += 0.003;
+            cageSphere.rotation.x += 0.001;
+            
+            gears.forEach(gear => {
+                gear.mesh.rotation.z += gear.speed;
+            });
+            
+            renderer.render(scene,camera);
+        }
+        animate();
+        
+        // Resize handler
+        window.addEventListener('resize',()=>{
+            camera.aspect = container.clientWidth/container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth,container.clientHeight);
         });
     </script>
 </body>
