@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator - CAGE Framework</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+        
+        :root {
+            --primary: #0a1628;
+            --accent: #00ff88;
+            --warning: #ff3366;
+            --secondary: #1a2f4a;
+            --text: #e8edf2;
+            --text-muted: #8b9caf;
+            --gold: #ffd700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #0d1f35 100%);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 51, 102, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            padding: 12px 24px;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .back-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+        
+        h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .input-section {
+            background: rgba(26, 47, 74, 0.6);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        .input-section h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 22, 40, 0.6);
+            border: 1px solid rgba(139, 156, 175, 0.3);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+        
+        .input-hint {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.4);
+        }
+        
+        .results-section {
+            background: rgba(26, 47, 74, 0.6);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+        
+        .results-section h2 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+        }
+        
+        .result-card {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .result-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .result-positive {
+            color: var(--accent);
+        }
+        
+        .result-breakdown {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(139, 156, 175, 0.2);
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        
+        .breakdown-label {
+            color: var(--text-muted);
+        }
+        
+        .breakdown-value {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .assumptions-section {
+            background: rgba(26, 47, 74, 0.4);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+        
+        .assumptions-section h3 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .assumptions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .assumption-item {
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+        }
+        
+        .assumption-item strong {
+            color: var(--accent);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-section {
+            background: rgba(26, 47, 74, 0.4);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+        
+        .comparison-section h2 {
+            font-size: 2.5rem;
+            color: var(--warning);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .comparison-card {
+            background: rgba(255, 51, 102, 0.05);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+        }
+        
+        .comparison-card h3 {
+            font-size: 1.5rem;
+            color: var(--warning);
+            margin-bottom: 20px;
+        }
+        
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(139, 156, 175, 0.1);
+        }
+        
+        .comparison-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 60px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            animation: fadeInUp 0.8s ease-out 0.6s;
+            animation-fill-mode: both;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .cta-section p {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .assumptions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .back-link {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to CAGE</a>
+    
+    <div class="container">
+        <header>
+            <h1>ROI Calculator</h1>
+            <p class="subtitle">Quantify the business value of continuous governance</p>
+        </header>
+        
+        <div class="calculator-container">
+            <div class="input-section">
+                <h2>Your Current State</h2>
+                
+                <div class="input-group">
+                    <label for="employees">Number of Security FTEs</label>
+                    <input type="number" id="employees" value="5" min="1">
+                    <div class="input-hint">Full-time security team members</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="avgSalary">Average FTE Salary ($)</label>
+                    <input type="number" id="avgSalary" value="120000" min="50000" step="5000">
+                    <div class="input-hint">Average annual compensation per security FTE</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="auditHours">Monthly Audit/Compliance Hours</label>
+                    <input type="number" id="auditHours" value="200" min="50" step="10">
+                    <div class="input-hint">FTE hours spent on manual audits, reporting, compliance</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="incidents">Annual Security Incidents</label>
+                    <input type="number" id="incidents" value="12" min="1">
+                    <div class="input-hint">Number of security incidents per year requiring investigation</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="avgIncidentCost">Average Incident Cost ($)</label>
+                    <input type="number" id="avgIncidentCost" value="50000" min="5000" step="5000">
+                    <div class="input-hint">Average cost per security incident (investigation, remediation, downtime)</div>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateROI()">Calculate ROI</button>
+            </div>
+            
+            <div class="results-section" id="results">
+                <h2>Your CAGE ROI</h2>
+                
+                <div class="result-card">
+                    <div class="result-label">Total Annual Savings</div>
+                    <div class="result-value result-positive" id="totalSavings">$0</div>
+                    
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">FTE Time Savings</span>
+                            <span class="breakdown-value" id="fteSavings">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Incident Reduction</span>
+                            <span class="breakdown-value" id="incidentSavings">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Compliance Efficiency</span>
+                            <span class="breakdown-value" id="complianceSavings">$0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-label">ROI (First Year)</div>
+                    <div class="result-value" id="roi">0%</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-label">Payback Period</div>
+                    <div class="result-value" id="payback">0 months</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-label">3-Year Net Benefit</div>
+                    <div class="result-value result-positive" id="threeYear">$0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="assumptions-section">
+            <h3>ROI Calculation Assumptions</h3>
+            <div class="assumptions-grid">
+                <div class="assumption-item">
+                    <strong>FTE Time Savings:</strong> 60-80% reduction in manual audit and compliance work through automation
+                </div>
+                <div class="assumption-item">
+                    <strong>Incident Reduction:</strong> 40% reduction in security incidents through continuous monitoring and automated remediation
+                </div>
+                <div class="assumption-item">
+                    <strong>Detection Speed:</strong> 95% reduction in mean time to detect (MTTD) from days to minutes
+                </div>
+                <div class="assumption-item">
+                    <strong>Remediation Speed:</strong> 85% reduction in mean time to remediate (MTTR) through automation
+                </div>
+                <div class="assumption-item">
+                    <strong>Implementation Cost:</strong> $150K-$250K for initial setup (Phase 1 & 2)
+                </div>
+                <div class="assumption-item">
+                    <strong>Annual Operating Cost:</strong> $80K-$120K for maintenance, licensing, and operations
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-section">
+            <h2>Cost Avoidance: What You're Not Calculating</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>Regulatory Penalties Avoided</h3>
+                    <div class="comparison-item">
+                        <span>GDPR/NIS2 Fines (avg)</span>
+                        <span style="color: var(--gold); font-weight: 600;">€10-20M</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span>DORA Non-Compliance</span>
+                        <span style="color: var(--gold); font-weight: 600;">€5-10M</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span>DoD Contract Loss (CMMC)</span>
+                        <span style="color: var(--gold); font-weight: 600;">$600B+ market</span>
+                    </div>
+                </div>
+                
+                <div class="comparison-card">
+                    <h3>Breach Cost Avoidance</h3>
+                    <div class="comparison-item">
+                        <span>Average Data Breach Cost</span>
+                        <span style="color: var(--gold); font-weight: 600;">$4.45M</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span>Ransomware Incident (avg)</span>
+                        <span style="color: var(--gold); font-weight: 600;">$1.85M</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span>Supply Chain Attack</span>
+                        <span style="color: var(--gold); font-weight: 600;">$3.2M+</span>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; color: var(--text-muted); font-size: 1.1rem;">
+                <em>Conservative ROI calculations exclude these catastrophic but low-probability events. A single prevented breach or regulatory penalty can justify CAGE investment for years.</em>
+            </p>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to Transform Your Security Governance?</h2>
+            <p>See how CAGE can deliver measurable business value while meeting regulatory requirements.</p>
+            <div class="cta-buttons">
+                <a href="implementation.html" class="btn btn-primary">View Implementation Roadmap</a>
+                <a href="strategic-mandate.html" class="btn btn-secondary">Regulatory Mandates</a>
+                <a href="executive-summary.html" class="btn btn-secondary">Executive Summary</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+        
+        function calculateROI() {
+            // Get inputs
+            const employees = parseInt(document.getElementById('employees').value);
+            const avgSalary = parseInt(document.getElementById('avgSalary').value);
+            const auditHours = parseInt(document.getElementById('auditHours').value);
+            const incidents = parseInt(document.getElementById('incidents').value);
+            const avgIncidentCost = parseInt(document.getElementById('avgIncidentCost').value);
+            
+            // Constants
+            const FTE_TIME_SAVINGS = 0.70; // 70% automation
+            const INCIDENT_REDUCTION = 0.40; // 40% fewer incidents
+            const IMPLEMENTATION_COST = 200000; // Average $200K
+            const ANNUAL_OPERATING_COST = 100000; // $100K/year
+            
+            // Calculate hourly rate
+            const hourlyRate = avgSalary / 2080; // Assuming 2080 work hours/year
+            
+            // FTE Time Savings
+            const annualAuditHours = auditHours * 12;
+            const hoursSaved = annualAuditHours * FTE_TIME_SAVINGS;
+            const fteSavings = hoursSaved * hourlyRate;
+            
+            // Incident Reduction Savings
+            const incidentsAvoided = incidents * INCIDENT_REDUCTION;
+            const incidentSavings = incidentsAvoided * avgIncidentCost;
+            
+            // Compliance Efficiency (estimated 30% of one FTE for continuous compliance vs quarterly)
+            const complianceSavings = avgSalary * 0.30;
+            
+            // Total Annual Savings
+            const totalAnnualSavings = fteSavings + incidentSavings + complianceSavings;
+            
+            // First Year Costs
+            const firstYearCost = IMPLEMENTATION_COST + ANNUAL_OPERATING_COST;
+            
+            // First Year Net Benefit
+            const firstYearBenefit = totalAnnualSavings - firstYearCost;
+            
+            // ROI Calculation (First Year)
+            const roi = (firstYearBenefit / firstYearCost) * 100;
+            
+            // Payback Period (in months)
+            const paybackMonths = Math.ceil((firstYearCost / totalAnnualSavings) * 12);
+            
+            // 3-Year Calculation
+            const threeYearSavings = totalAnnualSavings * 3;
+            const threeYearCost = IMPLEMENTATION_COST + (ANNUAL_OPERATING_COST * 3);
+            const threeYearBenefit = threeYearSavings - threeYearCost;
+            
+            // Update UI
+            document.getElementById('totalSavings').textContent = formatCurrency(totalAnnualSavings);
+            document.getElementById('fteSavings').textContent = formatCurrency(fteSavings);
+            document.getElementById('incidentSavings').textContent = formatCurrency(incidentSavings);
+            document.getElementById('complianceSavings').textContent = formatCurrency(complianceSavings);
+            document.getElementById('roi').textContent = roi.toFixed(0) + '%';
+            document.getElementById('payback').textContent = paybackMonths + ' months';
+            document.getElementById('threeYear').textContent = formatCurrency(threeYearBenefit);
+            
+            // Color coding for ROI
+            const roiElement = document.getElementById('roi');
+            if (roi > 100) {
+                roiElement.className = 'result-value result-positive';
+            } else if (roi > 0) {
+                roiElement.className = 'result-value';
+                roiElement.style.color = 'var(--gold)';
+            } else {
+                roiElement.className = 'result-value';
+                roiElement.style.color = 'var(--warning)';
+            }
+        }
+        
+        // Calculate on page load with default values
+        window.addEventListener('DOMContentLoaded', calculateROI);
+        
+        // Recalculate on input change
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calculateROI);
+        });
+    </script>
+</body>
+</html>
