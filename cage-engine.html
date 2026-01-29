@@ -259,6 +259,126 @@
             line-height: 1.8;
             margin-bottom: 20px;
         }
+        
+        /* Strategic Resources Section - NEW */
+        .strategic-resources {
+            margin: 80px 0;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 20px;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        .strategic-resources h2 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ec4899;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .resource-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(236, 72, 153, 0.2);
+            border-radius: 15px;
+            padding: 35px 30px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .resource-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .resource-card:hover {
+            border-color: #ec4899;
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(236, 72, 153, 0.3);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .resource-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .resource-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #ec4899;
+        }
+        
+        .resource-card p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        
+        .resource-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .meta-item {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .strategic-resources {
+                padding: 40px 20px;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 3em;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -565,6 +685,56 @@ Threat Activity / Regulation / Incidents
                         ✅ <strong>IS the connective framework</strong> that makes all your security systems 
                         work together as a coherent, verifiable governance system
                     </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- NEW: Strategic Resources Section -->
+        <div class="section">
+            <div class="strategic-resources">
+                <h2>📊 Strategic Resources</h2>
+                <p class="section-subtitle">Business case, regulatory mandates, and implementation guidance for CAGE</p>
+                
+                <div class="resources-grid">
+                    <a href="executive-summary.html" class="resource-card">
+                        <div class="resource-icon">📋</div>
+                        <h3>Executive Summary</h3>
+                        <p>C-suite overview of the business imperative for continuous governance</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">👔 For Executives</span>
+                            <span class="meta-item">⏱️ 5 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="strategic-mandate.html" class="resource-card">
+                        <div class="resource-icon">⚖️</div>
+                        <h3>Strategic Mandate</h3>
+                        <p>Why continuous governance is now legally required by CRA, DORA, NIS2, and CMMC</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">📜 Regulatory</span>
+                            <span class="meta-item">⏱️ 10 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="implementation.html" class="resource-card">
+                        <div class="resource-icon">🗺️</div>
+                        <h3>Implementation Roadmap</h3>
+                        <p>Phased approach from assessment to production deployment</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">🔧 Technical</span>
+                            <span class="meta-item">⏱️ 15 min read</span>
+                        </div>
+                    </a>
+                    
+                    <a href="roi-calculator.html" class="resource-card">
+                        <div class="resource-icon">💰</div>
+                        <h3>ROI Calculator</h3>
+                        <p>Interactive tool to quantify business value and cost savings</p>
+                        <div class="resource-meta">
+                            <span class="meta-item">🧮 Interactive</span>
+                            <span class="meta-item">⏱️ 3 min</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
