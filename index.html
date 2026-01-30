@@ -61,6 +61,71 @@
             color: #00ff41;
         }
         
+        /* Executive Summary Box */
+        .executive-summary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .executive-summary h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            color: #667eea;
+            text-align: center;
+        }
+        
+        .executive-summary .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .key-point {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .key-point h4 {
+            font-size: 1.4em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .key-point p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.85);
+        }
+        
+        .exec-cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .exec-cta a {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .exec-cta a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
         .problem-solution {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -281,6 +346,64 @@
             margin-bottom: 10px;
         }
         
+        /* Additional Resources Section */
+        .additional-resources {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .additional-resources h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+        }
+        
+        .resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .resource-link .icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+        
+        .resource-link .text h4 {
+            font-size: 1.2em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .resource-link .text p {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+        }
+        
         @media (max-width: 968px) {
             .hero h1 {
                 font-size: 3em;
@@ -291,6 +414,14 @@
             .speed-comparison,
             .process-steps {
                 grid-template-columns: 1fr;
+            }
+            
+            .executive-summary {
+                padding: 30px 20px;
+            }
+            
+            .key-points {
+                grid-template-columns: 1fr !important;
             }
         }
         
@@ -313,6 +444,39 @@
     </div>
     
     <div class="container">
+        <!-- Executive Summary / Abstract -->
+        <div class="section">
+            <div class="executive-summary">
+                <h2>Executive Summary</h2>
+                <p style="font-size: 1.15em; line-height: 1.8; text-align: center; max-width: 900px; margin: 0 auto 30px; color: rgba(255,255,255,0.9);">
+                    Organizations face an existential governance gap: quarterly audit cycles cannot defend against 24/7 AI-powered threats. 
+                    New regulatory frameworks (EU CRA, DORA, NIS2, US CMMC) now <strong>mandate</strong> continuous security governance—not recommend it. 
+                    CAGE provides the architectural framework to meet these requirements through automated, real-time compliance verification.
+                </p>
+                
+                <div class="key-points">
+                    <div class="key-point">
+                        <h4>The Problem</h4>
+                        <p>Organizations are blind to threats for ~89 days between quarterly audits while adversaries operate continuously. Manual processes cannot keep pace with AI-driven threat evolution.</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>The Mandate</h4>
+                        <p>EU CRA, DORA, NIS2, and US CMMC now require continuous monitoring and real-time compliance verification. Non-compliance penalties: €10-20M or loss of market access.</p>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>The Solution</h4>
+                        <p>CAGE integrates existing security systems into a unified governance framework with automated drift detection, remediation, and audit trail generation at threat speed.</p>
+                    </div>
+                </div>
+                
+                <div class="exec-cta">
+                    <a href="executive-summary.html">Read Full Business Case →</a>
+                </div>
+            </div>
+        </div>
+        
         <!-- Problem & Solution -->
         <div class="section">
             <div class="problem-solution">
@@ -447,6 +611,38 @@
                     <h3>CAGE Engine</h3>
                     <p>See the automated governance engine in action</p>
                     <a href="cage-engine.html">See CAGE</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Resources -->
+        <div class="section">
+            <div class="additional-resources">
+                <h3>Additional Resources</h3>
+                <div class="resources-list">
+                    <a href="strategic-mandate.html" class="resource-link">
+                        <span class="icon">⚖️</span>
+                        <div class="text">
+                            <h4>Regulatory Mandates</h4>
+                            <p>Deep dive into CRA, DORA, NIS2, CMMC requirements</p>
+                        </div>
+                    </a>
+                    
+                    <a href="implementation.html" class="resource-link">
+                        <span class="icon">🗺️</span>
+                        <div class="text">
+                            <h4>Implementation Roadmap</h4>
+                            <p>Phased approach from assessment to production</p>
+                        </div>
+                    </a>
+                    
+                    <a href="roi-calculator.html" class="resource-link">
+                        <span class="icon">💰</span>
+                        <div class="text">
+                            <h4>ROI Calculator</h4>
+                            <p>Quantify business value and cost savings</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
