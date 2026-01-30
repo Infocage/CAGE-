@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Pan-European Financial Institution - CAGE Framework</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+        
+        :root {
+            --primary: #0a1628;
+            --accent: #00ff88;
+            --warning: #ff3366;
+            --secondary: #1a2f4a;
+            --text: #e8edf2;
+            --text-muted: #8b9caf;
+            --dora: #667eea;
+            --nis2: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #0d1f35 100%);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 51, 102, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            padding: 12px 24px;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .back-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        .case-overview {
+            background: rgba(26, 47, 74, 0.6);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        .case-overview h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+        }
+        
+        .company-profile {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .profile-item {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+        
+        .profile-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .profile-value {
+            font-size: 1.3rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .regulatory-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(245, 158, 11, 0.1));
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 60px;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.3s;
+            animation-fill-mode: both;
+        }
+        
+        .regulatory-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--dora), var(--nis2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .regulatory-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .dual-reg {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .reg-column {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .reg-column h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dora-tag {
+            color: var(--dora);
+        }
+        
+        .nis2-tag {
+            color: var(--nis2);
+        }
+        
+        .reg-column ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .reg-column li {
+            padding: 10px 0 10px 25px;
+            position: relative;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+        
+        .reg-column li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .dora-tag + ul li::before {
+            color: var(--dora);
+        }
+        
+        .nis2-tag + ul li::before {
+            color: var(--nis2);
+        }
+        
+        .incident-timeline {
+            background: rgba(26, 47, 74, 0.4);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+        
+        .incident-timeline h2 {
+            font-size: 2.5rem;
+            color: var(--warning);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .incident-header {
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid var(--warning);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .incident-header h3 {
+            font-size: 1.8rem;
+            color: var(--warning);
+            margin-bottom: 15px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 80px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--warning), var(--accent));
+        }
+        
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -50px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--warning);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.3);
+        }
+        
+        .timeline-marker.success {
+            background: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+        }
+        
+        .timeline-time {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 3px solid var(--warning);
+        }
+        
+        .timeline-content.success {
+            border-left-color: var(--accent);
+        }
+        
+        .timeline-content h4 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 15px;
+        }
+        
+        .timeline-content ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .timeline-content li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+        
+        .timeline-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--warning);
+        }
+        
+        .timeline-content.success li::before {
+            color: var(--accent);
+        }
+        
+        .comparison-section {
+            background: rgba(26, 47, 74, 0.4);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+        
+        .comparison-section h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 8px;
+        }
+        
+        .comparison-card.traditional {
+            border: 2px solid var(--warning);
+        }
+        
+        .comparison-card.cage {
+            border: 2px solid var(--accent);
+        }
+        
+        .comparison-card h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .comparison-card.traditional h3 {
+            color: var(--warning);
+        }
+        
+        .comparison-card.cage h3 {
+            color: var(--accent);
+        }
+        
+        .outcome-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+        
+        .traditional .outcome-item {
+            border-left-color: var(--warning);
+        }
+        
+        .cage .outcome-item {
+            border-left-color: var(--accent);
+        }
+        
+        .outcome-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .outcome-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .traditional .outcome-value {
+            color: var(--warning);
+        }
+        
+        .cage .outcome-value {
+            color: var(--accent);
+        }
+        
+        .cage-capabilities {
+            background: rgba(26, 47, 74, 0.4);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out 0.6s;
+            animation-fill-mode: both;
+        }
+        
+        .cage-capabilities h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .capability-card {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 30px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .capability-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2);
+        }
+        
+        .capability-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .capability-card h4 {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .capability-card p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .key-takeaways {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 50px;
+            animation: fadeInUp 0.8s ease-out 0.7s;
+            animation-fill-mode: both;
+        }
+        
+        .key-takeaways h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .takeaways-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .takeaway-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+        
+        .takeaway-item h4 {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        
+        .takeaway-item p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .dual-reg,
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 50px;
+            }
+            
+            .timeline-marker {
+                left: -35px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .company-profile {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-link {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to CAGE</a>
+    
+    <div class="container">
+        <header>
+            <h1>Case Study</h1>
+            <p class="subtitle">Pan-European Financial Institution: Dual DORA + NIS2 Compliance</p>
+        </header>
+        
+        <!-- Company Overview -->
+        <div class="case-overview">
+            <h2>Organization Profile</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text);">
+                A major European banking and payment services provider operating across multiple jurisdictions, 
+                subject to both <strong>DORA (Digital Operational Resilience Act)</strong> as a financial entity 
+                and <strong>NIS2 (Network and Information Security Directive)</strong> for critical payment infrastructure.
+            </p>
+            
+            <div class="company-profile">
+                <div class="profile-item">
+                    <div class="profile-label">EMPLOYEES</div>
+                    <div class="profile-value">12,000+</div>
+                </div>
+                
+                <div class="profile-item">
+                    <div class="profile-label">COUNTRIES</div>
+                    <div class="profile-value">8 EU Nations</div>
+                </div>
+                
+                <div class="profile-item">
+                    <div class="profile-label">INFRASTRUCTURE</div>
+                    <div class="profile-value">Hybrid Cloud + On-Prem</div>
+                </div>
+                
+                <div class="profile-item">
+                    <div class="profile-label">REGULATORS</div>
+                    <div class="profile-value">BaFin, ACPR, DNB, ECB</div>
+                </div>
+                
+                <div class="profile-item">
+                    <div class="profile-label">CRITICAL THIRD PARTIES</div>
+                    <div class="profile-value">15+ ICT Providers</div>
+                </div>
+                
+                <div class="profile-item">
+                    <div class="profile-label">DAILY TRANSACTIONS</div>
+                    <div class="profile-value">2.5M+ Payments</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Regulatory Requirements -->
+        <div class="regulatory-box">
+            <h2>Dual Regulatory Burden: DORA + NIS2</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 40px; color: var(--text);">
+                As both a financial entity (DORA) and critical payment infrastructure provider (NIS2), 
+                the organization faces overlapping but distinct compliance requirements.
+            </p>
+            
+            <div class="dual-reg">
+                <div class="reg-column">
+                    <h3><span class="dora-tag">🏦 DORA Requirements</span></h3>
+                    <ul>
+                        <li><strong>4-hour initial notification</strong> to financial supervisors (major incidents)</li>
+                        <li><strong>72-hour intermediate report</strong> with root cause analysis</li>
+                        <li><strong>ICT third-party risk management</strong> with contractual provisions</li>
+                        <li><strong>Annual advanced testing</strong> of ICT tools and systems</li>
+                        <li><strong>TLPT (Threat-Led Penetration Testing)</strong> every 3 years</li>
+                        <li><strong>Management body accountability</strong> - personal liability for board members</li>
+                        <li><strong>Cross-border consolidated supervision</strong> at group level</li>
+                    </ul>
+                </div>
+                
+                <div class="reg-column">
+                    <h3><span class="nis2-tag">⚡ NIS2 Requirements</span></h3>
+                    <ul>
+                        <li><strong>24-hour initial notification</strong> for significant incidents</li>
+                        <li><strong>72-hour incident notification</strong> with impact assessment</li>
+                        <li><strong>Supply chain security measures</strong> for essential services</li>
+                        <li><strong>Risk management measures</strong> appropriate to threat level</li>
+                        <li><strong>Business continuity & crisis management</strong> capabilities</li>
+                        <li><strong>Security policies on network access</strong> and segmentation</li>
+                        <li><strong>Management approval of cybersecurity measures</strong> required</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255, 51, 102, 0.1); border: 1px solid var(--warning); padding: 25px; border-radius: 8px; margin-top: 40px;">
+                <h4 style="color: var(--warning); font-size: 1.5rem; margin-bottom: 15px;">⚠️ Compliance Complexity</h4>
+                <p style="font-size: 1.1rem; color: var(--text);">
+                    The organization must satisfy <strong>both sets of requirements simultaneously</strong>, 
+                    with the stricter timeline (DORA's 4-hour notification) taking precedence. Failure to meet 
+                    either framework results in severe penalties: up to <strong>€10-20M fines</strong> plus 
+                    <strong>personal management liability</strong>.
+                </p>
+            </div>
+        </div>
+        
+        <!-- The Incident -->
+        <div class="incident-timeline">
+            <h2>The Incident: Ransomware Attack via Third-Party VPN</h2>
+            
+            <div class="incident-header">
+                <h3>Initial Detection</h3>
+                <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 15px;">
+                    <strong>Tuesday, 14:23 CET</strong> - SIEM detects anomalous encryption activity on 25 hosts 
+                    in the German trading desk. Subsequent investigation reveals ransomware entry via compromised 
+                    third-party vendor VPN (market data provider).
+                </p>
+                <p style="font-size: 1.1rem; color: var(--text);">
+                    <strong>Classification:</strong> DORA Major Incident (trading operations impacted) + NIS2 Significant 
+                    Incident (payment infrastructure at risk)
+                </p>
+            </div>
+            
+            <h3 style="font-size: 2rem; color: var(--text); margin: 40px 0 30px; text-align: center;">
+                Traditional Governance Approach: Disaster
+            </h3>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">T+0 (14:23)</div>
+                    <div class="timeline-content">
+                        <h4>Detection & Initial Response</h4>
+                        <ul>
+                            <li>Security team alerted by SIEM</li>
+                            <li>Begin manual investigation and scope assessment</li>
+                            <li>Contacting IT teams across 8 countries to gather information</li>
+                            <li>Attempting to determine if incident meets DORA/NIS2 thresholds</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">T+4 hours (18:23)</div>
+                    <div class="timeline-content">
+                        <h4>❌ MISSED DORA 4-Hour Deadline</h4>
+                        <ul>
+                            <li>Still collecting information from subsidiaries</li>
+                            <li>Unable to confirm full scope or customer data impact</li>
+                            <li>Don't yet know which regulators need notification</li>
+                            <li>CRITICAL FAILURE: BaFin notification deadline missed</li>
+                            <li>Incident now qualifies as "late reporting"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">T+24 hours</div>
+                    <div class="timeline-content">
+                        <h4>Scope Expansion Discovered</h4>
+                        <ul>
+                            <li>Attack spread to French subsidiary via shared Active Directory forest</li>
+                            <li>ACPR (French regulator) now requires retroactive notification</li>
+                            <li>Third-party vendor (market data provider) also compromised</li>
+                            <li>SWIFT messaging connectivity potentially at risk</li>
+                            <li>Payment processing for 3 countries temporarily suspended</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">T+72 hours</div>
+                    <div class="timeline-content">
+                        <h4>Intermediate Report Challenges</h4>
+                        <ul>
+                            <li>Manual evidence collection across hybrid infrastructure</li>
+                            <li>Audit trail gaps (some logs on vendor systems not accessible)</li>
+                            <li>Cannot definitively prove containment across all jurisdictions</li>
+                            <li>Root cause analysis incomplete (vendor investigation ongoing)</li>
+                            <li>Uncertainty about customer data exposure</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time">T+30 days</div>
+                    <div class="timeline-content">
+                        <h4>Final Report & Regulatory Consequences</h4>
+                        <ul>
+                            <li><strong>Penalties:</strong> €15M fine for late DORA reporting</li>
+                            <li><strong>Management Liability:</strong> CISO and CRO personally sanctioned</li>
+                            <li><strong>Additional NIS2 Penalties:</strong> €5M for inadequate third-party risk management</li>
+                            <li><strong>Reputational Damage:</strong> Public disclosure of non-compliance</li>
+                            <li><strong>Customer Impact:</strong> 72 hours of payment processing delays</li>
+                            <li><strong>Board Action:</strong> Emergency governance review mandated</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="font-size: 2rem; color: var(--accent); margin: 60px 0 30px; text-align: center;">
+                CAGE Continuous Governance Approach: Survival
+            </h3>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+0 (14:23-14:25)</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Automated Detection & Classification</h4>
+                        <ul>
+                            <li><strong>14:23:</strong> SIEM detects anomaly, triggers CAGE governance engine</li>
+                            <li><strong>14:24:</strong> CAGE automated impact assessment:
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>Scope: German trading desk (25 hosts identified)</li>
+                                    <li>DORA classification: MAJOR incident (trading operations impact)</li>
+                                    <li>NIS2 classification: SIGNIFICANT incident (payment infrastructure risk)</li>
+                                    <li>Affected regulators: BaFin (primary), ACPR (secondary), ECB (consolidated)</li>
+                                    <li>Third parties: Citrix VPN (entry point), Bloomberg terminals (isolated)</li>
+                                    <li>Customer data: Analysis in progress</li>
+                                </ul>
+                            </li>
+                            <li><strong>14:25:</strong> C-suite automatically notified with full context dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+15 minutes (14:38)</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Automated Containment & Evidence Collection</h4>
+                        <ul>
+                            <li>Network segmentation automatically activated (German trading desk isolated)</li>
+                            <li>Cross-border connectivity map generated (8 countries analyzed)</li>
+                            <li>Third-party access paths identified and blocked (vendor VPN suspended)</li>
+                            <li>Forensic evidence collection initiated (all logs preserved with chain of custody)</li>
+                            <li>Initial notification templates auto-populated for BaFin, ACPR, ECB</li>
+                            <li>Backup verification: All trading data safely replicated</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+2 hours (16:23-16:45)</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Regulatory Notification Within Deadline</h4>
+                        <ul>
+                            <li><strong>16:23:</strong> CISO reviews auto-generated notification (all facts verified)</li>
+                            <li><strong>16:45:</strong> Initial notifications sent to BaFin, ACPR, ECB
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>Time elapsed: <strong>2 hours 22 minutes</strong> (well within DORA 4-hour requirement)</li>
+                                    <li>Included: Scope, classification, containment measures, customer impact (none confirmed)</li>
+                                    <li>Automatic audit trail attached with tamper-proof timestamps</li>
+                                </ul>
+                            </li>
+                            <li>NIS2 24-hour deadline: Comfortably met (same notification)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+4 hours (18:23)</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Continuous Monitoring Confirms Containment</h4>
+                        <ul>
+                            <li>CAGE continuous state monitoring across all 8 EU entities:
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>French subsidiary: NO lateral movement detected (AD forest segmentation held)</li>
+                                    <li>Spanish operations: NO anomalies (isolated network architecture)</li>
+                                    <li>Italian payment hub: NO compromise (SWIFT connectivity verified secure)</li>
+                                    <li>Benelux region: All systems normal</li>
+                                </ul>
+                            </li>
+                            <li>Third-party assessment complete: Vendor VPN compromised but successfully isolated</li>
+                            <li>Customer data: CRYPTOGRAPHIC VERIFICATION confirms NO EXPOSURE</li>
+                            <li>Payment processing: Maintained at 98% capacity (German desk rerouted)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+72 hours</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Intermediate Report Auto-Generated</h4>
+                        <ul>
+                            <li><strong>Root Cause:</strong> Vendor VPN compromise (credential stuffing attack on third party)</li>
+                            <li><strong>Remediation Steps:</strong> Full timeline with automated audit trail
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>Network segmentation activated at T+15 min</li>
+                                    <li>Vendor access revoked at T+18 min</li>
+                                    <li>Containment verified at T+4 hours</li>
+                                    <li>Systems restored at T+48 hours (German trading desk rebuilt)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Current Status:</strong> Fully contained, no customer data breach, operations at 100%</li>
+                            <li><strong>Third-Party Actions:</strong> Vendor contract review initiated, emergency patches deployed</li>
+                            <li><strong>Continuous Compliance:</strong> All SPHERE dimensions verified secure</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker success"></div>
+                    <div class="timeline-time">T+30 days</div>
+                    <div class="timeline-content success">
+                        <h4>✓ Final Report & Regulatory Approval</h4>
+                        <ul>
+                            <li><strong>Complete Incident Timeline:</strong> Automated audit trail with cryptographic verification</li>
+                            <li><strong>Lessons Learned:</strong> Third-party VPN access controls strengthened</li>
+                            <li><strong>Control Improvements:</strong> 
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>Enhanced vendor access monitoring</li>
+                                    <li>Additional network segmentation between subsidiaries</li>
+                                    <li>Automated third-party risk scoring implemented</li>
+                                </ul>
+                            </li>
+                            <li><strong>Third-Party Contracts:</strong> Amendments requiring CAGE integration for all critical vendors</li>
+                            <li><strong>Board Accountability:</strong> Real-time dashboard access demonstrated to regulators</li>
+                            <li><strong>Regulatory Outcome:</strong> 
+                                <ul style="margin-left: 25px; margin-top: 10px;">
+                                    <li>✓ CLEAN regulatory inspection by BaFin</li>
+                                    <li>✓ ACPR commended rapid response</li>
+                                    <li>✓ ECB cited as best practice for group-level coordination</li>
+                                    <li>✓ Management liability: NONE</li>
+                                    <li>✓ Fines: €0</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparison -->
+        <div class="comparison-section">
+            <h2>Outcome Comparison: Traditional vs. CAGE</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card traditional">
+                    <h3>❌ Traditional Approach</h3>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">DORA Notification Time</div>
+                        <div class="outcome-value">18+ hours</div>
+                        <p>Missed 4-hour deadline by 14 hours</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Regulatory Penalties</div>
+                        <div class="outcome-value">€20M+</div>
+                        <p>€15M DORA + €5M NIS2 fines</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Management Liability</div>
+                        <div class="outcome-value">Personal Sanctions</div>
+                        <p>CISO and CRO sanctioned</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Customer Impact</div>
+                        <div class="outcome-value">72 hours</div>
+                        <p>Payment processing delays</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Recovery Time</div>
+                        <div class="outcome-value">30+ days</div>
+                        <p>Full operational restoration</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Audit Trail Quality</div>
+                        <div class="outcome-value">Gaps</div>
+                        <p>Manual evidence with missing logs</p>
+                    </div>
+                </div>
+                
+                <div class="comparison-card cage">
+                    <h3>✓ CAGE Approach</h3>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">DORA Notification Time</div>
+                        <div class="outcome-value">2h 22min</div>
+                        <p>41% faster than required</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Regulatory Penalties</div>
+                        <div class="outcome-value">€0</div>
+                        <p>Full compliance maintained</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Management Liability</div>
+                        <div class="outcome-value">None</div>
+                        <p>Commended by regulators</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Customer Impact</div>
+                        <div class="outcome-value">Minimal</div>
+                        <p>98% capacity maintained</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Recovery Time</div>
+                        <div class="outcome-value">48 hours</div>
+                        <p>Full operational restoration</p>
+                    </div>
+                    
+                    <div class="outcome-item">
+                        <div class="outcome-label">Audit Trail Quality</div>
+                        <div class="outcome-value">Complete</div>
+                        <p>Cryptographically verified evidence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CAGE Capabilities Demonstrated -->
+        <div class="cage-capabilities">
+            <h2>CAGE Capabilities Demonstrated</h2>
+            
+            <div class="capabilities-grid">
+                <div class="capability-card">
+                    <span class="capability-icon">⚡</span>
+                    <h4>4-Hour DORA Compliance</h4>
+                    <p>Automated impact assessment and notification template generation enables sub-3-hour regulatory reporting—well within the strictest requirements.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">🌍</span>
+                    <h4>Multi-Regulator Coordination</h4>
+                    <p>Automatic jurisdiction mapping identifies all relevant supervisors (BaFin, ACPR, ECB, DNB) and generates tailored notifications for each.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">☁️</span>
+                    <h4>Hybrid Infrastructure Visibility</h4>
+                    <p>Unified monitoring across cloud (AWS, Azure) and on-premise data centers provides complete attack surface visibility in real-time.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">🔗</span>
+                    <h4>Third-Party Risk Tracking</h4>
+                    <p>Continuous monitoring of ICT third-party connections (15+ vendors) with automatic access path analysis during incidents.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">📋</span>
+                    <h4>Tamper-Proof Audit Trails</h4>
+                    <p>Cryptographic verification of all governance actions ensures audit trail integrity and meets DORA/NIS2 evidence requirements.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">👔</span>
+                    <h4>Board-Level Accountability</h4>
+                    <p>Real-time dashboards provide management body with instant visibility into security posture and incident response—satisfying personal liability requirements.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">🔄</span>
+                    <h4>Cross-Border Coordination</h4>
+                    <p>Automated analysis of lateral movement risk across 8 EU subsidiaries prevents scope expansion and enables group-level incident response.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">🔐</span>
+                    <h4>Customer Data Protection</h4>
+                    <p>Cryptographic verification of data integrity provides definitive proof of customer data exposure (or lack thereof) within minutes.</p>
+                </div>
+                
+                <div class="capability-card">
+                    <span class="capability-icon">⚙️</span>
+                    <h4>Automated Remediation</h4>
+                    <p>Network segmentation, access revocation, and containment measures execute automatically without human delay—critical for limiting incident spread.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Takeaways -->
+        <div class="key-takeaways">
+            <h2>Key Takeaways</h2>
+            
+            <div class="takeaways-list">
+                <div class="takeaway-item">
+                    <h4>1. Dual Compliance Is Operationally Complex</h4>
+                    <p>Organizations subject to both DORA and NIS2 face overlapping but distinct requirements. CAGE provides a unified framework that satisfies both simultaneously without duplicating effort.</p>
+                </div>
+                
+                <div class="takeaway-item">
+                    <h4>2. Speed Is Non-Negotiable</h4>
+                    <p>DORA's 4-hour notification requirement is unachievable with manual processes. Automated impact assessment and evidence collection are mandatory for compliance.</p>
+                </div>
+                
+                <div class="takeaway-item">
+                    <h4>3. Third-Party Risk Requires Continuous Monitoring</h4>
+                    <p>The attack entered via a trusted vendor VPN. Without continuous third-party connection monitoring, such entry points remain invisible until exploitation.</p>
+                </div>
+                
+                <div class="takeaway-item">
+                    <h4>4. Cross-Border Incidents Need Unified Response</h4>
+                    <p>Multi-national organizations cannot afford siloed incident response. CAGE's group-level coordination prevented scope expansion across 8 countries.</p>
+                </div>
+                
+                <div class="takeaway-item">
+                    <h4>5. Audit Trails Must Be Continuous</h4>
+                    <p>Manual evidence collection creates gaps that regulators exploit. Continuous, tamper-proof audit trails eliminate ambiguity and satisfy both DORA and NIS2 documentation requirements.</p>
+                </div>
+                
+                <div class="takeaway-item">
+                    <h4>6. Management Liability Is Real</h4>
+                    <p>DORA explicitly holds management bodies personally accountable. Real-time visibility and automated compliance verification protect board members from personal sanctions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
