@@ -628,6 +628,14 @@
                         </div>
                     </a>
                     
+                    <a href="framework-mapping.html" class="resource-link">
+                        <span class="icon">🔗</span>
+                        <div class="text">
+                            <h4>Framework Mapping</h4>
+                            <p>Control overlap analysis across DORA, NIS2, ISO 27001, SOC 2, NIST, CRA, CMMC</p>
+                        </div>
+                    </a>
+                    
                     <a href="strategic-mandate.html" class="resource-link">
                         <span class="icon">⚖️</span>
                         <div class="text">
@@ -664,9 +672,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Compliance Comparison Chart
         const ctx = document.getElementById('comparisonChart').getContext('2d');
-        
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -703,16 +709,11 @@
                         position: 'top',
                         labels: {
                             color: '#ffffff',
-                            font: {
-                                size: 13,
-                                weight: 'bold'
-                            },
+                            font: { size: 13, weight: 'bold' },
                             padding: 15
                         }
                     },
-                    title: {
-                        display: false
-                    }
+                    title: { display: false }
                 },
                 scales: {
                     y: {
@@ -721,45 +722,31 @@
                             display: true,
                             text: 'Risk',
                             color: '#ffffff',
-                            font: {
-                                size: 13,
-                                weight: 'bold'
-                            }
+                            font: { size: 13, weight: 'bold' }
                         },
                         ticks: {
                             color: '#ffffff',
-                            font: {
-                                size: 11
-                            },
+                            font: { size: 11 },
                             callback: function(value, index) {
                                 if (value === 0) return 'Low';
                                 if (index === this.max) return 'High';
                                 return '';
                             }
                         },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
                     },
                     x: {
                         title: {
                             display: true,
                             text: 'Days',
                             color: '#ffffff',
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
+                            font: { size: 12, weight: 'bold' }
                         },
                         ticks: {
                             color: '#ffffff',
-                            font: {
-                                size: 11
-                            }
+                            font: { size: 11 }
                         },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
                     }
                 }
             }
